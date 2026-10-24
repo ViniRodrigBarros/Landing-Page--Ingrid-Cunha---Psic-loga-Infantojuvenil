@@ -47,7 +47,7 @@ Clinical child and adolescent psychology (`Psicologia Clínica Infantojuvenil`) 
 - Extras: Floating WhatsApp button (desktop/tablet) and Sticky Mobile CTA Bar.
 - **Deliberately Open / Undecided Pre-Launch Facts (`[A CONFIRMAR]` / `[INSERIR ...]`):**
   - Clinical parameters: exact age range attended (`a partir de X até Y anos`), session duration (`ex. 50 minutos`), and modality (`Presencial em [CIDADE]` / `Online`).
-  - Operational & contact data: real WhatsApp number in `js/main.js` (`WHATSAPP_CONFIG.phone`), clinic address/city/CEP, office hours, professional email, Instagram handle (`@[INSERIR_INSTAGRAM]`), final domain (`[SEU-DOMINIO.COM.BR]`), and GTM/Meta Pixel IDs.
+  - Operational & contact data: WhatsApp oficial configurado como `+55 (83) 98604-3830` (`5583986043830` em `js/main.js` e `index.html`), clinic address/city/CEP, office hours, professional email, Instagram handle (`@[INSERIR_INSTAGRAM]`), final domain (`[SEU-DOMINIO.COM.BR]`), and GTM/Meta Pixel IDs.
 
 ## Brand Commitments
 

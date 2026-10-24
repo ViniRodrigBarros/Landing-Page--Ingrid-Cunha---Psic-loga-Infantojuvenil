@@ -37,8 +37,8 @@ Todos os botões de WhatsApp da página são alimentados por **uma única consta
 
 ```javascript
 const WHATSAPP_CONFIG = Object.freeze({
-  // Formato internacional apenas com números: 55 + DDD + Número (Ex.: '5583999999999')
-  phone: '5500000000000',
+  // Formato internacional apenas com números: 55 + DDD + Número (Configurado: '5583986043830')
+  phone: '5583986043830',
 
   // Mensagem inicial enviada automaticamente pelo visitante:
   message:
@@ -46,7 +46,7 @@ const WHATSAPP_CONFIG = Object.freeze({
 });
 ```
 
-3. Substitua `'5500000000000'` pelo número real e salve o arquivo. Todos os botões do cabeçalho, hero, seções, rodapé, barra mobile e botão flutuante serão atualizados automaticamente.
+3. Caso deseje alterar futuramente, modifique o campo `phone` e salve o arquivo. Todos os botões do cabeçalho, hero, seções, rodapé, barra mobile e botão flutuante serão atualizados automaticamente.
 
 ---
 
