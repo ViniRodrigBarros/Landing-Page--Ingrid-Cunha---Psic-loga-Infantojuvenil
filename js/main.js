@@ -30,8 +30,8 @@ window.addEventListener('beforeunload', () => {
    Todos os botões de WhatsApp da página utilizam esta constante.
    ============================================================================ */
 const WHATSAPP_CONFIG = Object.freeze({
-  // [INSERIR NÚMERO] Formato internacional apenas com dígitos: 55 + DDD + Número (Ex.: '5583999999999')
-  phone: '5500000000000',
+  // Número oficial de atendimento WhatsApp da psicóloga Ingrid Cunha: +55 (83) 98604-3830
+  phone: '5583986043830',
 
   // Mensagem pré-preenchida editável em um só lugar:
   message:
