@@ -611,16 +611,17 @@ function initAnchorNavigation() {
 
 /* ============================================================================
    11. REEXECUÇÃO DO DESENHO EM GIZ DO HERO (OVERDRIVE)
-   - Executa a animação de traçado em giz toda vez que o Hero entra na área visível,
-     seja na primeira visita ou ao retornar subindo/descendo a página.
-   - Ao sair da seção, reseta o estado para garantir reprodução integral dos traços
-     na próxima entrada.
-   - Escopo exclusivo da seção Hero; nenhuma outra seção é afetada.
+   - Observa o componente visual diretamente (.hero-visual), garantindo que no
+     celular a animação só dispare quando a ilustração realmente entrar na tela,
+     evitando renderizar antes de o usuário chegar até ela.
+   - No desktop, como o visual fica ao lado do texto, dispara na carga inicial.
+   - Ao sair da tela (subindo ou descendo), remove a classe e reseta os traços
+     para permitir replay completo toda vez que o usuário retornar à ilustração.
+   - Escopo exclusivo da ilustração do Hero; nenhuma outra seção é afetada.
    ============================================================================ */
 function initHeroChalkReplay() {
-  const heroSection = document.querySelector('.hero-section');
   const heroVisual = document.querySelector('.hero-visual');
-  if (!heroSection || !heroVisual) return;
+  if (!heroVisual) return;
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced || !('IntersectionObserver' in window)) {
@@ -628,6 +629,8 @@ function initHeroChalkReplay() {
     return;
   }
 
+  // Observa o próprio componente visual (.hero-visual) com threshold adequado:
+  // No mobile, só dispara quando pelo menos 20% da ilustração estiver visível na tela.
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -640,11 +643,11 @@ function initHeroChalkReplay() {
     },
     {
       root: null,
-      threshold: 0.15
+      threshold: 0.2
     }
   );
 
-  observer.observe(heroSection);
+  observer.observe(heroVisual);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
