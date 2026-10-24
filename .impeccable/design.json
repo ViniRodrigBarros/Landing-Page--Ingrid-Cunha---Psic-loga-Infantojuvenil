@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-24T14:10:00-03:00",
+  "title": "Design System: Ingrid Cunha — Psicóloga Infantojuvenil",
+  "extensions": {
+    "colorMeta": {
+      "rose": {
+        "role": "primary",
+        "displayName": "Rosa Acolhimento",
+        "canonical": "#E9A4A8",
+        "tonalRamp": ["#4A2023", "#6E3236", "#94474C", "#BA6268", "#DF8D92", "#E9A4A8", "#F4CDD0", "#FBF0F1"]
+      },
+      "vanilla": {
+        "role": "secondary",
+        "displayName": "Amarelo Baunilha",
+        "canonical": "#F6DEBC",
+        "tonalRamp": ["#4D391D", "#73562D", "#9B7642", "#C49A60", "#E5C494", "#F6DEBC", "#FAEBD6", "#FDF9F3"]
+      },
+      "sky": {
+        "role": "tertiary",
+        "displayName": "Azul Serenidade",
+        "canonical": "#BAE5ED",
+        "tonalRamp": ["#1B434B", "#296470", "#3B8897", "#58AEBF", "#89CEDB", "#BAE5ED", "#DCF2F6", "#EEF9FB"]
+      },
+      "charcoal": {
+        "role": "neutral",
+        "displayName": "Chumbo Suave",
+        "canonical": "#2B2628",
+        "tonalRamp": ["#1A1718", "#2B2628", "#3F383B", "#544C4F", "#6E6468", "#968C90", "#CFC7CA", "#EFE4DF"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display (Hero H1)",
+        "purpose": "Main hero value proposition headline."
+      },
+      "headline": {
+        "displayName": "Headline (Section H2)",
+        "purpose": "Primary section headings across all 10 sections."
+      },
+      "title": {
+        "displayName": "Title (Card H3)",
+        "purpose": "Pillar titles, TCC sub-cards, and step titles."
+      },
+      "body": {
+        "displayName": "Body (Montserrat)",
+        "purpose": "Welcoming clinical copy, bio, and FAQ answers."
+      },
+      "label": {
+        "displayName": "Label (Eyebrow Tag)",
+        "purpose": "Uppercase pill badges above section headings."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-sm",
+        "value": "0 4px 16px rgba(43, 38, 40, 0.05)",
+        "purpose": "Subtle resting elevation for badges and contact cards."
+      },
+      {
+        "name": "shadow-md",
+        "value": "0 12px 32px rgba(43, 38, 40, 0.07)",
+        "purpose": "Pillar cards, floating credentials, and hover states."
+      },
+      {
+        "name": "shadow-lg",
+        "value": "0 20px 48px rgba(233, 164, 168, 0.22)",
+        "purpose": "Warm rose ambient glow behind the Hero portrait frame."
+      }
+    ],
+    "motion": [
+      {
+        "name": "transition-fast",
+        "value": "200ms cubic-bezier(0.25, 1, 0.5, 1)",
+        "purpose": "Button hover lifts and focus transitions."
+      },
+      {
+        "name": "transition-base",
+        "value": "320ms cubic-bezier(0.25, 1, 0.5, 1)",
+        "purpose": "Menu drawer, sticky bar, and accordion transitions."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary WhatsApp CTA Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main conversion CTA using Rosa Acolhimento (#E9A4A8) and high-contrast Chumbo Suave (#2B2628).",
+      "html": "<a href=\"#\" class=\"ds-btn-primary\"><span>Agendar conversa pelo WhatsApp</span></a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 0.625rem; padding: 0.875rem 1.5rem; border-radius: 9999px; background-color: #E9A4A8; color: #2B2628; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 600; text-decoration: none; box-shadow: 0 8px 22px rgba(233, 164, 168, 0.42); transition: transform 200ms ease, background-color 200ms ease; } .ds-btn-primary:hover { background-color: #DF8D92; transform: translateY(-2px); } .ds-btn-primary:focus-visible { outline: 3px solid #2B2628; outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Outline Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Low-friction secondary anchor button.",
+      "html": "<a href=\"#como-funciona\" class=\"ds-btn-secondary\">Ver como funciona</a>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; padding: 0.875rem 1.5rem; border-radius: 9999px; background-color: #FFFFFF; color: #2B2628; border: 2px solid #E9A4A8; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 600; text-decoration: none; transition: transform 200ms ease, background-color 200ms ease; } .ds-btn-secondary:hover { background-color: #FBF0F1; transform: translateY(-2px); }"
+    },
+    {
+      "name": "Section Eyebrow Tag",
+      "kind": "chip",
+      "refersTo": "section-tag",
+      "description": "Amarelo Baunilha (#F6DEBC) pill label above section headings.",
+      "html": "<span class=\"ds-section-tag\">Reconhecimento de sinais</span>",
+      "css": ".ds-section-tag { display: inline-block; padding: 0.35rem 1rem; background-color: #F6DEBC; color: #2B2628; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 9999px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "O Consultório Acolhedor em Giz Pastel (The Pastel Crayon Sanctuary)",
+    "overview": "The visual system of Ingrid Cunha — Psicóloga Infantojuvenil (CRP 13/12719) balances the emotional warmth and playfulness of childhood development with the clarity, ethics, and scientific rigor that parents expect from a clinical psychologist working with Cognitive-Behavioral Therapy (TCC) and Neuropsychology.",
+    "keyCharacteristics": [
+      "Luminous pastel surfaces grounded by warm cream (#FDF9F3) and pure white (#FFFFFF) breathing room.",
+      "High-contrast soft charcoal typography (#2B2628) over pastel surfaces to achieve WCAG AAA readability.",
+      "Hand-drawn crayon/dry-brush graphical accents used as purposeful focal anchors.",
+      "Generously rounded containers (1.25rem to 2.5rem) echoing a safe, child-friendly environment."
+    ],
+    "rules": [
+      {
+        "name": "The Charcoal-On-Pastel Rule",
+        "body": "Never place pure white body text or button labels directly over #E9A4A8, #F6DEBC, or #BAE5ED; always pair pastel fills with Chumbo Suave (#2B2628) so every button and badge passes WCAG AA/AAA effortlessly.",
+        "section": "colors"
+      },
+      {
+        "name": "The Official Palette Rule",
+        "body": "Never introduce external saturated greens, blues, or purples; all conversion CTAs stay strictly within the brand's Rosa Acolhimento (#E9A4A8) and official palette.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do use only the official palette (#E9A4A8, #F6DEBC, #BAE5ED, #FFFFFF) and its documented warm-cream/charcoal support tokens defined in :root.",
+      "Do pair pastel backgrounds with Chumbo Suave (#2B2628) text to maintain WCAG AA/AAA contrast.",
+      "Do use the real brand assets (assets/logo.png, assets/ingrid.png, assets/coracao.png, assets/canecas-2.png, assets/icons/insta.png) with explicit width and height attributes.",
+      "Do route every WhatsApp CTA through .js-whatsapp-link and WHATSAPP_CONFIG in js/main.js."
+    ],
+    "donts": [
+      "Don't invent unrequested accent colors (such as neon WhatsApp greens or generic corporate blues).",
+      "Don't use sharp 0px corners or heavy dark brutalist shadows.",
+      "Don't include diagnostic checklists, promises of cure, patient testimonials, or identifiable photos of real children."
+    ]
+  }
+}

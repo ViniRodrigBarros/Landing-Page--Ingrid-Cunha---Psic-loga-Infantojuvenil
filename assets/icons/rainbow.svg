@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90" width="120" height="90" aria-hidden="true">
+  <defs>
+    <filter id="crayon-rainbow" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" seed="7" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.8" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </defs>
+  <g filter="url(#crayon-rainbow)">
+    <path d="M 14 78 C 14 16, 98 16, 98 78" fill="none" stroke="#E9A4A8" stroke-width="12" stroke-linecap="round" />
+    <path d="M 30 78 C 30 36, 82 36, 82 78" fill="none" stroke="#F6DEBC" stroke-width="10.5" stroke-linecap="round" />
+    <path d="M 45 78 C 45 53, 67 53, 67 78" fill="none" stroke="#BAE5ED" stroke-width="9.5" stroke-linecap="round" />
+    <path d="M 102 10 Q 102 21 113 21 Q 102 21 102 32 Q 102 21 91 21 Q 102 21 102 10 Z" fill="#F6DEBC" />
+  </g>
+</svg>

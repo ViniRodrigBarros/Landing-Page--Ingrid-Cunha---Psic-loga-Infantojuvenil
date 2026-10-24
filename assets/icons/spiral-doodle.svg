@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 50" width="90" height="50" aria-hidden="true">
+  <defs>
+    <filter id="crayon-spiral" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" seed="31" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </defs>
+  <path d="M 8 34 C 20 12, 38 14, 34 30 C 31 40, 21 36, 26 24 C 33 10, 56 12, 54 28 C 52 38, 42 34, 48 22 C 55 10, 74 16, 82 28" fill="none" stroke="#E9A4A8" stroke-width="3.5" stroke-linecap="round" filter="url(#crayon-spiral)" />
+</svg>

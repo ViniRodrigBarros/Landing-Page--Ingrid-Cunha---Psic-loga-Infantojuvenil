@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72" aria-hidden="true">
+  <defs>
+    <filter id="crayon-flower" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" seed="21" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </defs>
+  <g filter="url(#crayon-flower)" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 36 24 C 30 8, 42 8, 36 24 C 50 14, 56 26, 42 32 C 58 36, 52 48, 40 40 C 44 56, 30 56, 34 40 C 20 48, 14 36, 30 32 C 16 26, 22 14, 36 24 Z" fill="#F6DEBC" fill-opacity="0.5" stroke="#E9A4A8" stroke-width="3.2" />
+    <circle cx="36" cy="34" r="5.5" fill="#E9A4A8" />
+  </g>
+</svg>

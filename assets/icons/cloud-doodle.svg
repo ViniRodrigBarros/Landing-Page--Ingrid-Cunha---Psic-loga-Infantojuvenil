@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 68" width="110" height="68" aria-hidden="true">
+  <defs>
+    <filter id="crayon-cloud" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" seed="14" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </defs>
+  <path d="M 26 54 H 84 C 95 54 101 46 99 36 C 97 27 89 23 82 24 C 78 12 64 7 52 12 C 41 7 27 14 25 26 C 14 27 9 36 12 45 C 14 51 20 54 26 54 Z" fill="#BAE5ED" fill-opacity="0.35" stroke="#BAE5ED" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#crayon-cloud)" />
+</svg>
