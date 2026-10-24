@@ -952,7 +952,6 @@ html:not(.js-ready) .text-highlight::after {
   align-items: flex-end;
   justify-content: center;
   overflow: visible;
-  animation: chalk-frame-settle 900ms ease-out 260ms both;
 }
 
 /* Preenchimento rosa do arco: camada própria para que a máscara não recorte os grafismos */
@@ -972,7 +971,6 @@ html:not(.js-ready) .text-highlight::after {
   mask-repeat: no-repeat;
   -webkit-mask-position: 0 100%;
   mask-position: 0 100%;
-  animation: chalk-fill-up 860ms cubic-bezier(0.5, 0, 0.2, 1) 100ms both;
 }
 
 .hero-bg-star {
@@ -1006,7 +1004,7 @@ html:not(.js-ready) .text-highlight::after {
   object-position: top center;
   border-radius: var(--radius-lg);
   background-color: transparent;
-  animation: chalk-portrait-rise 720ms var(--ease-out-expo) 200ms both;
+  opacity: 1;
 }
 
 .hero-badge-rainbow {
@@ -1033,41 +1031,85 @@ html:not(.js-ready) .text-highlight::after {
   padding: 0.45rem;
   border-radius: 50%;
   box-shadow: var(--shadow-md);
-  /* Carimbo de entrada; a flutuação (listada depois) assume quando começa */
-  animation:
-    chalk-heart-stamp 560ms var(--ease-out-expo) 1020ms both,
-    doodle-drift-2 4.6s ease-in-out 2.1s infinite;
 }
 
-/* Traços desenhados à mão (pathLength="1" normaliza todos os comprimentos) */
-.hero-bg-star--1 .chalk-stroke {
+/* ==========================================================================
+   ESTADO REPRODUZÍVEL DO DESENHO EM GIZ (REPETIÇÃO A CADA ENTRADA NO HERO)
+   - Quando JS está pronto (.js-ready), os traços aguardam .is-chalk-active
+   - Ao sair da seção do Hero, .is-chalk-active é removida e os traços resetam
+   - Ao entrar novamente, .is-chalk-active é adicionada e redesenha tudo do início
+   ========================================================================== */
+
+/* Estado em repouso (preparado para ser desenhado) */
+.js-ready .hero-visual:not(.is-chalk-active) .chalk-stroke,
+.js-ready .hero-visual:not(.is-chalk-active) .chalk-arc {
+  stroke-dasharray: 1 1.2;
+  stroke-dashoffset: 1.02;
+  opacity: 0;
+}
+
+.js-ready .hero-visual:not(.is-chalk-active) .hero-bg-star--2 .chalk-fill {
+  opacity: 0;
+}
+
+.js-ready .hero-visual:not(.is-chalk-active) .chalk-sparkle {
+  opacity: 0;
+  transform: scale(0) rotate(-45deg);
+}
+
+.js-ready .hero-visual:not(.is-chalk-active) .hero-badge-heart {
+  opacity: 0;
+  transform: scale(0.55) rotate(-14deg);
+}
+
+.js-ready .hero-visual:not(.is-chalk-active) .hero-photo-frame::before {
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+}
+
+/* Execução ao entrar na seção do Hero (.is-chalk-active) */
+.hero-visual.is-chalk-active .hero-photo-frame {
+  animation: chalk-frame-settle 900ms ease-out 260ms both;
+}
+
+.hero-visual.is-chalk-active .hero-photo-frame::before {
+  animation: chalk-fill-up 860ms cubic-bezier(0.5, 0, 0.2, 1) 100ms both;
+}
+
+.hero-visual.is-chalk-active .hero-bg-star--1 .chalk-stroke {
   animation: chalk-draw 520ms cubic-bezier(0.45, 0, 0.25, 1) 620ms both;
 }
 
-.hero-bg-star--2 .chalk-stroke {
+.hero-visual.is-chalk-active .hero-bg-star--2 .chalk-stroke {
   animation: chalk-draw 520ms cubic-bezier(0.45, 0, 0.25, 1) 720ms both;
 }
 
-.hero-bg-star--2 .chalk-fill {
+.hero-visual.is-chalk-active .hero-bg-star--2 .chalk-fill {
   animation: chalk-fade 380ms ease-out 1120ms both;
 }
 
-.chalk-arc--1 {
+.hero-visual.is-chalk-active .chalk-arc--1 {
   animation: chalk-draw 560ms cubic-bezier(0.45, 0, 0.25, 1) 780ms both;
 }
 
-.chalk-arc--2 {
+.hero-visual.is-chalk-active .chalk-arc--2 {
   animation: chalk-draw 500ms cubic-bezier(0.45, 0, 0.25, 1) 900ms both;
 }
 
-.chalk-arc--3 {
+.hero-visual.is-chalk-active .chalk-arc--3 {
   animation: chalk-draw 440ms cubic-bezier(0.45, 0, 0.25, 1) 1020ms both;
 }
 
-.chalk-sparkle {
+.hero-visual.is-chalk-active .chalk-sparkle {
   transform-box: fill-box;
   transform-origin: center;
   animation: chalk-sparkle 420ms var(--ease-out-expo) 1360ms both;
+}
+
+.hero-visual.is-chalk-active .hero-badge-heart {
+  animation:
+    chalk-heart-stamp 560ms var(--ease-out-expo) 1020ms both,
+    doodle-drift-2 4.6s ease-in-out 2.1s infinite;
 }
 
 @keyframes chalk-fill-up {
@@ -2844,6 +2886,25 @@ html.js-ready .signs-grid > [data-reveal]:nth-child(7) {
   .chalk-fill,
   .chalk-sparkle {
     animation: none !important;
+  }
+
+  .chalk-stroke,
+  .chalk-arc {
+    stroke-dashoffset: 0 !important;
+    stroke-dasharray: none !important;
+    opacity: 1 !important;
+  }
+
+  .chalk-fill,
+  .chalk-sparkle,
+  .hero-badge-heart {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-photo-frame::before {
+    -webkit-mask-position: 0 100% !important;
+    mask-position: 0 100% !important;
   }
 
   [data-reveal],

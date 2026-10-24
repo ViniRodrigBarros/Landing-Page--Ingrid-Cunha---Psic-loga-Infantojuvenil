@@ -609,6 +609,44 @@ function initAnchorNavigation() {
   });
 }
 
+/* ============================================================================
+   11. REEXECUÇÃO DO DESENHO EM GIZ DO HERO (OVERDRIVE)
+   - Executa a animação de traçado em giz toda vez que o Hero entra na área visível,
+     seja na primeira visita ou ao retornar subindo/descendo a página.
+   - Ao sair da seção, reseta o estado para garantir reprodução integral dos traços
+     na próxima entrada.
+   - Escopo exclusivo da seção Hero; nenhuma outra seção é afetada.
+   ============================================================================ */
+function initHeroChalkReplay() {
+  const heroSection = document.querySelector('.hero-section');
+  const heroVisual = document.querySelector('.hero-visual');
+  if (!heroSection || !heroVisual) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced || !('IntersectionObserver' in window)) {
+    heroVisual.classList.add('is-chalk-active');
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          heroVisual.classList.add('is-chalk-active');
+        } else {
+          heroVisual.classList.remove('is-chalk-active');
+        }
+      });
+    },
+    {
+      root: null,
+      threshold: 0.15
+    }
+  );
+
+  observer.observe(heroSection);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Limpa qualquer hash existente na entrada e fixa o topo absoluto
   if (window.location.hash) {
@@ -627,6 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroScrapbookTilt();
   initCurrentYear();
   initAnchorNavigation();
+  initHeroChalkReplay();
 });
 
 // Garante topo absoluto mesmo após o carregamento completo de imagens e fontes
