@@ -825,7 +825,7 @@ button {
 /* Momento Focal de Autoria: traçado acolhedor em giz de cera que se desenha ao entrar */
 html.js-ready .hero-content.is-revealed .text-highlight::after,
 .hero-content.is-revealed .text-highlight::after {
-  animation: crayon-draw 750ms var(--ease-out-expo) 320ms forwards;
+  animation: crayon-draw 750ms var(--ease-out-expo) 1200ms forwards;
 }
 
 html:not(.js-ready) .text-highlight::after {
@@ -925,12 +925,26 @@ html:not(.js-ready) .text-highlight::after {
   margin-inline: auto;
 }
 
+/* ==========================================================================
+   OVERDRIVE — "Desenho em Giz ao Vivo" (momento focal único do Hero)
+   Linha do tempo (ms):
+     100–960   arco rosa é colorido de baixo para cima com borda irregular de giz
+     200–920   retrato sobe suavemente para dentro do arco
+     620–1240  estrelas brancas desenhadas traço a traço
+     780–1580  arco-íris desenhado arco por arco + brilho da estrela
+     1020–1580 coração "carimbado" na borda
+     1250–1810 cartão de credencial assenta
+     1200–1950 marcador sob "compreender emoções" fecha a sequência
+   Estado base = estado final: sem CSS de animação (ou com reduced motion), tudo
+   aparece pronto. Só anima stroke-dashoffset, mask-position, clip-path,
+   transform e opacity, em uma área pequena e uma única vez.
+   ========================================================================== */
 .hero-photo-frame {
   position: relative;
   width: 100%;
   aspect-ratio: 404 / 762;
   max-height: 490px;
-  background-color: var(--color-rose);
+  background-color: transparent;
   border-radius: var(--radius-xl);
   padding: 0.5rem 0.5rem 0;
   box-shadow: var(--shadow-lg);
@@ -938,14 +952,36 @@ html:not(.js-ready) .text-highlight::after {
   align-items: flex-end;
   justify-content: center;
   overflow: visible;
+  animation: chalk-frame-settle 900ms ease-out 260ms both;
+}
+
+/* Preenchimento rosa do arco: camada própria para que a máscara não recorte os grafismos */
+.hero-photo-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background-color: var(--color-rose);
+  pointer-events: none;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 220' preserveAspectRatio='none'%3E%3Cpath d='M0 110 C12 103 24 117 36 109 S60 103 72 111 S92 105 100 108 V220 H0 Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 220' preserveAspectRatio='none'%3E%3Cpath d='M0 110 C12 103 24 117 36 109 S60 103 72 111 S92 105 100 108 V220 H0 Z'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 220%;
+  mask-size: 100% 220%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 0 100%;
+  mask-position: 0 100%;
+  animation: chalk-fill-up 860ms cubic-bezier(0.5, 0, 0.2, 1) 100ms both;
 }
 
 .hero-bg-star {
   position: absolute;
   z-index: 1;
   pointer-events: none;
-  filter: brightness(0) invert(1);
   opacity: 0.9;
+  height: auto;
+  overflow: visible;
 }
 
 .hero-bg-star--1 {
@@ -970,6 +1006,7 @@ html:not(.js-ready) .text-highlight::after {
   object-position: top center;
   border-radius: var(--radius-lg);
   background-color: transparent;
+  animation: chalk-portrait-rise 720ms var(--ease-out-expo) 200ms both;
 }
 
 .hero-badge-rainbow {
@@ -978,10 +1015,11 @@ html:not(.js-ready) .text-highlight::after {
   right: -0.5rem;
   width: clamp(68px, 18vw, 82px);
   height: auto;
+  aspect-ratio: 120 / 90;
+  overflow: visible;
   z-index: 3;
   filter: drop-shadow(0 6px 12px rgba(43, 38, 40, 0.08));
-  animation: doodle-drift-1 5.8s ease-in-out infinite;
-  will-change: transform;
+  animation: doodle-drift-1 5.8s ease-in-out 2s infinite;
 }
 
 .hero-badge-heart {
@@ -995,8 +1033,130 @@ html:not(.js-ready) .text-highlight::after {
   padding: 0.45rem;
   border-radius: 50%;
   box-shadow: var(--shadow-md);
-  animation: doodle-drift-2 4.6s ease-in-out infinite;
-  will-change: transform;
+  /* Carimbo de entrada; a flutuação (listada depois) assume quando começa */
+  animation:
+    chalk-heart-stamp 560ms var(--ease-out-expo) 1020ms both,
+    doodle-drift-2 4.6s ease-in-out 2.1s infinite;
+}
+
+/* Traços desenhados à mão (pathLength="1" normaliza todos os comprimentos) */
+.hero-bg-star--1 .chalk-stroke {
+  animation: chalk-draw 520ms cubic-bezier(0.45, 0, 0.25, 1) 620ms both;
+}
+
+.hero-bg-star--2 .chalk-stroke {
+  animation: chalk-draw 520ms cubic-bezier(0.45, 0, 0.25, 1) 720ms both;
+}
+
+.hero-bg-star--2 .chalk-fill {
+  animation: chalk-fade 380ms ease-out 1120ms both;
+}
+
+.chalk-arc--1 {
+  animation: chalk-draw 560ms cubic-bezier(0.45, 0, 0.25, 1) 780ms both;
+}
+
+.chalk-arc--2 {
+  animation: chalk-draw 500ms cubic-bezier(0.45, 0, 0.25, 1) 900ms both;
+}
+
+.chalk-arc--3 {
+  animation: chalk-draw 440ms cubic-bezier(0.45, 0, 0.25, 1) 1020ms both;
+}
+
+.chalk-sparkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: chalk-sparkle 420ms var(--ease-out-expo) 1360ms both;
+}
+
+@keyframes chalk-fill-up {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+  to {
+    -webkit-mask-position: 0 100%;
+    mask-position: 0 100%;
+  }
+}
+
+@keyframes chalk-frame-settle {
+  from {
+    box-shadow: 0 20px 48px rgba(233, 164, 168, 0);
+  }
+}
+
+@keyframes chalk-portrait-rise {
+  from {
+    /* 0.01 (e não 0) mantém o retrato elegível como LCP desde o primeiro paint */
+    opacity: 0.01;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes chalk-draw {
+  from {
+    stroke-dasharray: 1 1.2;
+    stroke-dashoffset: 1.02;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  to {
+    stroke-dasharray: 1 1.2;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes chalk-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes chalk-sparkle {
+  from {
+    opacity: 0;
+    transform: scale(0) rotate(-45deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes chalk-heart-stamp {
+  from {
+    opacity: 0;
+    transform: scale(0.55) rotate(-14deg);
+    clip-path: circle(0% at 50% 50%);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    clip-path: circle(150% at 50% 50%);
+  }
+}
+
+@keyframes chalk-card-settle {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Flutuações orgânicas calmas que transmitem leveza e acolhimento */
@@ -1034,6 +1194,7 @@ html:not(.js-ready) .text-highlight::after {
   align-items: center;
   gap: 0.65rem;
   z-index: 4;
+  animation: chalk-card-settle 560ms var(--ease-out-expo) 1250ms both;
 }
 
 .floating-card-logo {
@@ -2672,6 +2833,17 @@ html.js-ready .signs-grid > [data-reveal]:nth-child(7) {
 
   .text-highlight::after {
     transform: scaleX(1) !important;
+  }
+
+  /* Overdrive "Desenho em Giz ao Vivo": sem sequência; tudo já desenhado (estado base) */
+  .hero-photo-frame,
+  .hero-photo-frame::before,
+  .hero-photo,
+  .hero-floating-card,
+  .chalk-stroke,
+  .chalk-fill,
+  .chalk-sparkle {
+    animation: none !important;
   }
 
   [data-reveal],

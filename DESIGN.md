@@ -229,7 +229,7 @@ The motion system expresses the creative north star: **"O Consultório Acolhedor
 - **Entrance Duration (`--transition-entrance`):** `520ms` for progressive viewport scroll reveals (`[data-reveal]`).
 
 ### Focal Moment & Ambient Sanctuary
-- **Authored Hero Focal Moment (Crayon Stroke):** Upon arrival, the vanilla pastel marker highlight (`.text-highlight::after`) progressively draws from left to right behind *"compreender emoções"* (`animation: crayon-draw 750ms var(--ease-out-expo) 320ms forwards;`), personifying the hand-crafted care of the brand.
+- **Overdrive Focal Moment ("Desenho em Giz ao Vivo"):** Ao carregar a página, os elementos decorativos do retrato são desenhados à mão diante do visitante em uma coreografia orgânica de ~1.6s executada uma única vez. O arco rosa de fundo é preenchido com borda irregular de giz (`mask-image`), o retrato da Ingrid sobe suavemente (`translateY`), as estrelas de 4 e 5 pontas e os três arcos do arco-íris são desenhados traço a traço (`stroke-dashoffset` via SVG `pathLength="1"` com filtro de textura fractal), o coração oficial é carimbado e o sublinhado em giz baunilha sob *"compreender emoções"* fecha a sequência com desaceleração exponencial (`cubic-bezier(0.16, 1, 0.3, 1)`).
 - **Sanctuary Ambient Rhythm:** Subtle, slow-breathing floating animations (`4.6s–6.4s` loops on `transform` only) on the crayon heart (`.hero-badge-heart`, `.about-doodle--heart`) and rainbow doodles (`.hero-badge-rainbow`, `.about-doodle--spiral`), evoking an affectionate and living clinic space.
 - **Welcoming Availability Pulse:** A reassuring, soft rose pulse on `.status-dot` (*"Tire suas dúvidas iniciais sem compromisso"*), communicating active openness to families.
 

@@ -391,23 +391,50 @@
              - assets/ingrid.png (404x762px, recorte de Ingrid Cunha sobre fundo Rosa Acolhimento #E9A4A8)
              - assets/coracao.png (227x199px, coração rabiscado em giz de cera)
              - assets/logo.png (255x197px, logotipo oficial) -->
-        <div class="hero-visual" data-reveal="fade-in">
+        <!-- OVERDRIVE "Desenho em Giz ao Vivo": os grafismos abaixo são SVG inline (mesma arte de
+             assets/icons/*.svg) para que cada traço seja desenhado diante do visitante.
+             Sequência 100% CSS, sem dependência de JS; estado final é o padrão (reduced motion). -->
+        <div class="hero-visual">
           <figure class="hero-figure">
             <div class="hero-photo-frame">
               <!-- Estrelas brancas desenhadas à mão no fundo rosa conforme diretriz de fotografia do Manual -->
-              <img src="assets/icons/star-4.svg" alt="" width="46" height="46" class="hero-bg-star hero-bg-star--1" decoding="async" aria-hidden="true">
-              <img src="assets/icons/star-5.svg" alt="" width="52" height="52" class="hero-bg-star hero-bg-star--2" decoding="async" aria-hidden="true">
+              <svg class="hero-bg-star hero-bg-star--1" viewBox="0 0 64 64" width="46" height="46" aria-hidden="true" focusable="false">
+                <defs>
+                  <filter id="hero-crayon-star4" x="-8%" y="-8%" width="116%" height="116%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" seed="5" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G" />
+                  </filter>
+                </defs>
+                <path class="chalk-stroke" pathLength="1" d="M 32 4 Q 32 32 60 32 Q 32 32 32 60 Q 32 32 4 32 Q 32 32 32 4 Z" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linejoin="round" filter="url(#hero-crayon-star4)" />
+              </svg>
+              <svg class="hero-bg-star hero-bg-star--2" viewBox="0 0 64 64" width="52" height="52" aria-hidden="true" focusable="false">
+                <defs>
+                  <filter id="hero-crayon-star5" x="-8%" y="-8%" width="116%" height="116%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" seed="9" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.3" xChannelSelector="R" yChannelSelector="G" />
+                  </filter>
+                </defs>
+                <g filter="url(#hero-crayon-star5)">
+                  <path class="chalk-fill" d="M 32 6 L 39 23 L 58 24 L 43 36 L 48 55 L 32 44 L 16 55 L 21 36 L 6 24 L 25 23 Z" fill="#FFFFFF" fill-opacity="0.45" />
+                  <path class="chalk-stroke" pathLength="1" d="M 32 6 L 39 23 L 58 24 L 43 36 L 48 55 L 32 44 L 16 55 L 21 36 L 6 24 L 25 23 Z" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round" />
+                </g>
+              </svg>
 
-              <!-- Grafismo de arco-íris sobreposto fiel ao manual -->
-              <img
-                src="assets/icons/rainbow.svg"
-                alt=""
-                width="96"
-                height="72"
-                class="hero-badge-rainbow"
-                decoding="async"
-                aria-hidden="true"
-              >
+              <!-- Grafismo de arco-íris sobreposto fiel ao manual (desenhado arco a arco) -->
+              <svg class="hero-badge-rainbow" viewBox="0 0 120 90" width="96" height="72" aria-hidden="true" focusable="false">
+                <defs>
+                  <filter id="hero-crayon-rainbow" x="-8%" y="-8%" width="116%" height="116%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" seed="7" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.8" xChannelSelector="R" yChannelSelector="G" />
+                  </filter>
+                </defs>
+                <g filter="url(#hero-crayon-rainbow)">
+                  <path class="chalk-stroke chalk-arc chalk-arc--1" pathLength="1" d="M 14 78 C 14 16, 98 16, 98 78" fill="none" stroke="#E9A4A8" stroke-width="12" stroke-linecap="round" />
+                  <path class="chalk-stroke chalk-arc chalk-arc--2" pathLength="1" d="M 30 78 C 30 36, 82 36, 82 78" fill="none" stroke="#F6DEBC" stroke-width="10.5" stroke-linecap="round" />
+                  <path class="chalk-stroke chalk-arc chalk-arc--3" pathLength="1" d="M 45 78 C 45 53, 67 53, 67 78" fill="none" stroke="#BAE5ED" stroke-width="9.5" stroke-linecap="round" />
+                  <path class="chalk-sparkle" d="M 102 10 Q 102 21 113 21 Q 102 21 102 32 Q 102 21 91 21 Q 102 21 102 10 Z" fill="#F6DEBC" />
+                </g>
+              </svg>
               <!-- Coração rabiscado oficial enviado (assets/coracao.png) -->
               <img
                 src="assets/coracao.png"
