@@ -51,8 +51,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Outfit:wght@700&display=swap">
 
-  <!-- Script inline ultra-rápido de detecção de JS para progressive enhancement de animações -->
-  <script>document.documentElement.classList.add('js-ready');</script>
+  <!-- Script inline ultra-rápido: detecção de JS e controle estrito de scroll inicial -->
+  <script>
+    document.documentElement.classList.add('js-ready');
+    // Previne que o navegador restaure o scroll ou pule para âncoras ao abrir ou recarregar
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, 0);
+  </script>
 
   <!-- Preload da imagem principal do Hero (assets/ingrid.png) para otimizar LCP -->
   <link rel="preload" as="image" href="assets/ingrid.png" type="image/png" fetchpriority="high">

@@ -7,6 +7,24 @@
 
 'use strict';
 
+// Garante scrollRestoration manual logo no carregamento do módulo
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+// Ao abrir ou recarregar a página (inclusive via bfcache), garante início no topo absoluto
+window.addEventListener('pageshow', () => {
+  if (window.location.hash) {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+  window.scrollTo(0, 0);
+});
+
+// Antes de recarregar ou fechar, reseta para topo prevenindo que o navegador grave scrollY > 0
+window.addEventListener('beforeunload', () => {
+  window.scrollTo(0, 0);
+});
+
 /* ============================================================================
    1. CONFIGURAÇÃO CENTRALIZADA DO WHATSAPP (EDITAR EM UM ÚNICO LUGAR)
    Todos os botões de WhatsApp da página utilizam esta constante.
@@ -552,7 +570,52 @@ function initCurrentYear() {
   }
 }
 
+/* ============================================================================
+   10. NAVEGAÇÃO DE ÂNCORAS E SCROLL CONTROLADO
+   - O scroll até a seção central só acontece por interação explícita do usuário
+     (ao clicar em "Ver como funciona" ou nos links de navegação).
+   - O clique rola suavemente até a seção de destino.
+   - Mantém a URL livre do hash para que F5 / recarregar nunca pule para o meio.
+   ============================================================================ */
+function initAnchorNavigation() {
+  const isReducedMotion = () =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const links = document.querySelectorAll('a[href^="#"]');
+
+  links.forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const href = link.getAttribute('href');
+      if (!href || href === '#' || link.classList.contains('skip-link')) return;
+
+      const target = href === '#topo' ? document.body : document.querySelector(href);
+      if (!target) return;
+
+      event.preventDefault();
+
+      const behavior = isReducedMotion() ? 'auto' : 'smooth';
+
+      if (href === '#topo') {
+        window.scrollTo({ top: 0, behavior });
+      } else {
+        target.scrollIntoView({ behavior, block: 'start' });
+      }
+
+      // Limpa qualquer hash residual da barra de endereço para proteger recarregamentos
+      if (window.location.hash) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Limpa qualquer hash existente na entrada e fixa o topo absoluto
+  if (window.location.hash) {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+  window.scrollTo(0, 0);
+
   initWhatsAppLinks();
   initMobileMenu();
   initFaqAccordion();
@@ -563,4 +626,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initCopyActions();
   initHeroScrapbookTilt();
   initCurrentYear();
+  initAnchorNavigation();
+});
+
+// Garante topo absoluto mesmo após o carregamento completo de imagens e fontes
+window.addEventListener('load', () => {
+  if (window.location.hash) {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+  if (window.scrollY !== 0) {
+    window.scrollTo(0, 0);
+  }
 });
