@@ -21,29 +21,35 @@ const WHATSAPP_CONFIG = Object.freeze({
 });
 
 /**
- * Gera a URL oficial do WhatsApp com a mensagem codificada
+ * Gera a URL oficial do WhatsApp com a mensagem codificada (padrão ou contextual)
+ * @param {string} [customMessage] Mensagem contextual específica do botão clicado
  * @returns {string} URL completa para abertura no WhatsApp Web ou App
  */
-function getWhatsAppUrl() {
+function getWhatsAppUrl(customMessage) {
   const cleanPhone = WHATSAPP_CONFIG.phone.replace(/\D/g, '');
-  const encodedMessage = encodeURIComponent(WHATSAPP_CONFIG.message);
+  const textToEncode =
+    customMessage && customMessage.trim().length > 0
+      ? customMessage.trim()
+      : WHATSAPP_CONFIG.message;
+  const encodedMessage = encodeURIComponent(textToEncode);
   return `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
 }
 
 /**
- * Aplica o link centralizado do WhatsApp em todos os CTAs com a classe .js-whatsapp-link
+ * Aplica o link centralizado do WhatsApp em todos os CTAs com a classe .js-whatsapp-link,
+ * respeitando mensagens contextuais definidas em [data-whatsapp-message]
  */
 function initWhatsAppLinks() {
-  const whatsappUrl = getWhatsAppUrl();
   const links = document.querySelectorAll('.js-whatsapp-link');
 
   links.forEach((link) => {
-    link.setAttribute('href', whatsappUrl);
+    const customMsg = link.getAttribute('data-whatsapp-message');
+    link.setAttribute('href', getWhatsAppUrl(customMsg));
   });
 }
 
 /* ============================================================================
-   2. MENU HAMBÚRGUER ACESSÍVEL (MOBILE)
+   2. MENU HAMBÚRGUER ACESSÍVEL (MOBILE COM FOCUS TRAP)
    ============================================================================ */
 function initMobileMenu() {
   const toggleBtn = document.getElementById('btn-menu-mobile');
@@ -51,7 +57,7 @@ function initMobileMenu() {
 
   if (!toggleBtn || !nav) return;
 
-  const navLinks = nav.querySelectorAll('a');
+  const navLinks = Array.from(nav.querySelectorAll('a'));
 
   function setMenuState(isOpen) {
     toggleBtn.setAttribute('aria-expanded', String(isOpen));
@@ -74,11 +80,31 @@ function initMobileMenu() {
     });
   });
 
-  // Fecha o menu ao pressionar Escape e devolve o foco ao botão
+  // Fecha o menu ao pressionar Escape e prende o foco (Tab / Shift+Tab) quando aberto no mobile
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && nav.classList.contains('is-open')) {
+    const modal = document.getElementById('privacy-modal');
+    if (modal && !modal.hidden) return; // Prioriza o modal caso esteja aberto
+
+    if (!nav.classList.contains('is-open')) return;
+
+    if (event.key === 'Escape') {
       setMenuState(false);
       toggleBtn.focus();
+      return;
+    }
+
+    if (event.key === 'Tab' && window.innerWidth < 1024 && navLinks.length > 0) {
+      const focusable = [toggleBtn, ...navLinks];
+      const firstEl = focusable[0];
+      const lastEl = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstEl) {
+        event.preventDefault();
+        lastEl.focus();
+      } else if (!event.shiftKey && document.activeElement === lastEl) {
+        event.preventDefault();
+        firstEl.focus();
+      }
     }
   });
 
@@ -154,12 +180,19 @@ function initFaqAccordion() {
 }
 
 /* ============================================================================
-   4. HEADER, BOTÃO FLUTUANTE E BARRA FIXA MOBILE AO ROLAR
+   4. HEADER, SCROLL-SPY, BOTÃO FLUTUANTE E BARRA FIXA MOBILE AO ROLAR
    ============================================================================ */
 function initScrollUI() {
   const header = document.getElementById('topo');
   const floatingWhatsapp = document.getElementById('floating-whatsapp');
   const mobileCtaBar = document.getElementById('mobile-cta-bar');
+  const navLinks = Array.from(document.querySelectorAll('.main-nav .nav-link'));
+  const trackedSections = navLinks
+    .map((link) => {
+      const href = link.getAttribute('href');
+      return href && href.startsWith('#') ? document.querySelector(href) : null;
+    })
+    .filter(Boolean);
 
   let ticking = false;
 
@@ -171,6 +204,7 @@ function initScrollUI() {
     }
 
     const showFloating = scrollY > 340;
+    document.body.classList.toggle('has-floating-cta', showFloating);
 
     if (floatingWhatsapp) {
       floatingWhatsapp.classList.toggle('is-visible', showFloating);
@@ -178,6 +212,26 @@ function initScrollUI() {
 
     if (mobileCtaBar) {
       mobileCtaBar.classList.toggle('is-visible', showFloating);
+    }
+
+    // Scroll-spy acessível (aria-current="true") para indicar a seção ativa
+    if (trackedSections.length > 0) {
+      const scrollPosition = scrollY + 180;
+      let activeId = null;
+
+      trackedSections.forEach((section) => {
+        if (section.offsetTop <= scrollPosition) {
+          activeId = `#${section.id}`;
+        }
+      });
+
+      navLinks.forEach((link) => {
+        if (link.getAttribute('href') === activeId) {
+          link.setAttribute('aria-current', 'true');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
     }
 
     ticking = false;
@@ -267,6 +321,18 @@ function initPrivacyAndLgpd() {
 
   function openModal() {
     if (!modal) return;
+
+    // Fecha o menu mobile caso esteja aberto para evitar sobreposição de camadas
+    const nav = document.getElementById('menu-principal');
+    const toggleBtn = document.getElementById('btn-menu-mobile');
+    if (nav && nav.classList.contains('is-open')) {
+      nav.classList.remove('is-open');
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        toggleBtn.setAttribute('aria-label', 'Abrir menu de navegação');
+      }
+    }
+
     lastFocusedElement = document.activeElement;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -303,8 +369,33 @@ function initPrivacyAndLgpd() {
   }
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && modal && !modal.hidden) {
+    if (!modal || modal.hidden) return;
+
+    if (event.key === 'Escape') {
       closeModal();
+      return;
+    }
+
+    // Focus trap acessível (WCAG 2.1.2 / 2.4.3) dentro do modal aberto
+    if (event.key === 'Tab') {
+      const focusableElements = Array.from(
+        modal.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => !el.hasAttribute('disabled'));
+
+      if (focusableElements.length === 0) return;
+
+      const firstEl = focusableElements[0];
+      const lastEl = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstEl) {
+        event.preventDefault();
+        lastEl.focus();
+      } else if (!event.shiftKey && document.activeElement === lastEl) {
+        event.preventDefault();
+        firstEl.focus();
+      }
     }
   });
 }
