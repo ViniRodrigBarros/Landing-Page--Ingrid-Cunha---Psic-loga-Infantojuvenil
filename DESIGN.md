@@ -16,33 +16,33 @@ colors:
   border: "#EFE4DF"
 typography:
   display:
-    fontFamily: "'Dashing Personal', 'Outfit', 'Montserrat', sans-serif"
-    fontSize: "clamp(1.95rem, 1.55rem + 1.9vw, 3.1rem)"
+    fontFamily: "'Dashing Personal', 'Outfit', 'Outfit Fallback', 'Montserrat', 'Montserrat Fallback', sans-serif"
+    fontSize: "clamp(2rem, 1.48rem + 2.15vw, 3.125rem)"
     fontWeight: 700
-    lineHeight: 1.22
-    letterSpacing: "-0.015em"
+    lineHeight: 1.15
+    letterSpacing: "-0.022em"
   headline:
-    fontFamily: "'Dashing Personal', 'Outfit', 'Montserrat', sans-serif"
-    fontSize: "clamp(1.65rem, 1.4rem + 1.2vw, 2.35rem)"
+    fontFamily: "'Dashing Personal', 'Outfit', 'Outfit Fallback', 'Montserrat', 'Montserrat Fallback', sans-serif"
+    fontSize: "clamp(1.65rem, 1.32rem + 1.35vw, 2.35rem)"
     fontWeight: 700
-    lineHeight: 1.22
-    letterSpacing: "-0.015em"
+    lineHeight: 1.2
+    letterSpacing: "-0.018em"
   title:
-    fontFamily: "'Dashing Personal', 'Outfit', 'Montserrat', sans-serif"
-    fontSize: "clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem)"
+    fontFamily: "'Dashing Personal', 'Outfit', 'Outfit Fallback', 'Montserrat', 'Montserrat Fallback', sans-serif"
+    fontSize: "clamp(1.275rem, 1.14rem + 0.55vw, 1.55rem)"
     fontWeight: 700
-    lineHeight: 1.22
-    letterSpacing: "-0.015em"
+    lineHeight: 1.28
+    letterSpacing: "-0.012em"
   body:
-    fontFamily: "'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-    fontSize: "clamp(0.975rem, 0.94rem + 0.2vw, 1.0625rem)"
+    fontFamily: "'Montserrat', 'Montserrat Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    fontSize: "clamp(0.985rem, 0.94rem + 0.22vw, 1.0625rem)"
     fontWeight: 400
-    lineHeight: 1.65
+    lineHeight: 1.68
   label:
-    fontFamily: "'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-    fontSize: "clamp(0.8125rem, 0.79rem + 0.15vw, 0.875rem)"
+    fontFamily: "'Montserrat', 'Montserrat Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    fontSize: "clamp(0.8125rem, 0.785rem + 0.14vw, 0.875rem)"
     fontWeight: 600
-    letterSpacing: "0.1em"
+    letterSpacing: "0.09em"
 rounded:
   sm: "0.75rem"
   md: "1.25rem"
@@ -159,17 +159,17 @@ A luminous pastel triad inspired by childhood tenderness and emotional regulatio
 
 ## Typography
 
-**Display Font:** `Dashing Personal` (Bold `700`, loaded via local `@font-face` with `Outfit` and `Montserrat` Bold geometric fallbacks)
-**Body Font:** `Montserrat` (Light `300`, Regular `400`, Medium `500`, SemiBold `600`, Bold `700`)
+**Display Font:** `Dashing Personal` (Bold `700`, loaded via local `@font-face` with `Outfit` `700` and metric-compatible `'Outfit Fallback'` (`size-adjust: 100.8%`) geometric fallbacks)
+**Body Font:** `Montserrat` (Regular `400`, Medium `500`, SemiBold `600`, paired with metric-compatible `'Montserrat Fallback'` (`size-adjust: 105.5%`))
 
 **Character:** The pairing unites the contemporary, clean display personality of `Dashing Personal`—distinguished in the brand wordmark (`assets/logo.png`) by its bespoke lowercase **"g"** with an angled top ear and open loop—with Julieta Ulanovsky's geometric `Montserrat`, which brings airy legibility to clinical explanations, credentials, and uppercase tracked labels (`PSICÓLOGA INFANTOJUVENIL`).
 
 ### Hierarchy
-- **Display** (`700` weight, `clamp(1.95rem, 1.55rem + 1.9vw, 3.1rem)`, `1.22` line-height, `-0.015em` letter-spacing): Reserved exclusively for the Hero `<h1>` value proposition, featuring an inline vanilla marker highlight (`.text-highlight`).
-- **Headline** (`700` weight, `clamp(1.65rem, 1.4rem + 1.2vw, 2.35rem)`, `1.22` line-height, `-0.015em` letter-spacing): Section `<h2>` headings across all conversion sections and the final CTA banner.
-- **Title** (`700` weight, `clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem)`, `1.22` line-height, `-0.015em` letter-spacing): Major card headings (`<h3>`) in the Care Pillars (`.pillar-title`), TCC cards (`.tcc-card-title`), and Privacy Modal header. Compact card titles (`.sign-card-title`, `.step-title`) step down smoothly to `clamp(1.1rem, 1.04rem + 0.3vw, 1.25rem)`.
-- **Body** (`400` weight with `600` strong emphasis, `clamp(0.975rem, 0.94rem + 0.2vw, 1.0625rem)`, `1.65` line-height): Main narrative copy in `Sobre a Ingrid`, TCC explanations, and introductory texts. Lead subtitles (`.hero-subtitle`, `.section-subtitle`) scale to `clamp(1.1rem, 1.04rem + 0.3vw, 1.25rem)` within a comfortable `38rem–44rem` reading measure.
-- **Label** (`600` weight, `clamp(0.8125rem, 0.79rem + 0.15vw, 0.875rem)`, `0.1em` letter-spacing, uppercase): Section eyebrow pills (`.section-tag`), microcopy captions, and credential tags, enforcing a strict `13px` (`0.8125rem`) minimum legibility floor.
+- **Display (`--text-3xl`)** (`700` weight, `clamp(2rem, 1.48rem + 2.15vw, 3.125rem)`, `1.15` line-height, `-0.022em` letter-spacing, `text-wrap: balance`): Reserved exclusively for the Hero `<h1>` value proposition, featuring an inline vanilla marker highlight (`.text-highlight`).
+- **Headline (`--text-2xl`)** (`700` weight, `clamp(1.65rem, 1.32rem + 1.35vw, 2.35rem)`, `1.2` line-height, `-0.018em` letter-spacing, `text-wrap: balance`): Section `<h2>` headings across all conversion sections and the final CTA banner.
+- **Title (`--text-xl` / `--text-lg` / `--text-md`)** (`700` weight, `1.28` line-height, `-0.012em` letter-spacing, `text-wrap: balance`): Major card headings (`<h3>` at `--text-xl`: `clamp(1.275rem, 1.14rem + 0.55vw, 1.55rem)`) in the Care Pillars (`.pillar-title`), TCC cards (`.tcc-card-title`), and Privacy Modal header. Compact card titles (`.sign-card-title`, `.step-title`) step down to `--text-lg` (`clamp(1.125rem, 1.04rem + 0.38vw, 1.3125rem)`), while sub-section and contact card titles (`.credentials-title`, `.contact-card h3`) use `--text-md` (`clamp(1.05rem, 0.99rem + 0.28vw, 1.1875rem)`).
+- **Body (`--text-base` / `--text-sm`)** (`400` weight with `600` strong emphasis, `clamp(0.985rem, 0.94rem + 0.22vw, 1.0625rem)`, `1.68` line-height, `text-wrap: pretty`): Main narrative copy in `Sobre a Ingrid`, TCC explanations, and introductory texts constrained to `54ch–65ch`. Lead subtitles (`.hero-subtitle`, `.section-subtitle`) scale to `--text-md` (`clamp(1.05rem, 0.99rem + 0.28vw, 1.1875rem)`, `1.6` line-height, `max-width: 54ch`) so they remain optically distinct from card `<h3>` titles (`--text-lg`).
+- **Label (`--text-xs`)** (`600` weight, `clamp(0.8125rem, 0.785rem + 0.14vw, 0.875rem)`, `0.09em` letter-spacing, `1.3` line-height, uppercase): Section eyebrow pills (`.section-tag`), microcopy captions, and credential tags, enforcing a strict `13px` (`0.8125rem`) minimum legibility floor. Numerical identifiers (`CRP 13/12719`, steps `01–04`, phone numbers, `CVV 188`, `SAMU 192`) enforce `font-variant-numeric: tabular-nums lining-nums`.
 
 ### Named Rules
 **The 13px Minimum Floor Rule.** No text token or caption may drop below `0.8125rem` (`13px`), ensuring that CRP numbers, LGPD notices, and microcopy remain effortlessly legible on mobile screens for parents reading under stress.
@@ -216,6 +216,31 @@ Guided by Section 5 of the Visual Identity Manual (*"Containers Arredondados"*),
 - **Extra-Large Arch/Frame Radius (`--radius-xl`: `2.5rem`):** Outer portrait frames (`.hero-photo-frame`, `.about-photo-wrapper`) and the Final CTA hero card (`.final-cta-card` with `2px solid #FFFFFF` border).
 - **Full Pill (`--radius-pill`: `9999px`):** All buttons (`.btn`), section eyebrow tags (`.section-tag`), pillar audience badges (`.pillar-badge`), and cognitive triad step badges (`.triad-badge`).
 - **Organic Crayon Motifs:** Circular floating heart badges (`border-radius: 50%` housing `assets/coracao.png`), circular step numbers (`.step-number`), and freeform hand-drawn SVG/PNG doodles positioned at frame edges.
+
+## Motion
+
+The motion system expresses the creative north star: **"O Consultório Acolhedor em Giz Pastel"**. Motion is purposeful, organic, and gentle—designed to reassure parents under stress and evoke a child-safe therapeutic sanctuary. It avoids aggressive mechanical transitions, bouncy spring physics, and long blocking sequences.
+
+### Motion Tokens & Curves
+- **Natural Exponential Deceleration (`--ease-out-expo`):** `cubic-bezier(0.16, 1, 0.3, 1)` used for confident, smooth arrivals and state reveals.
+- **Soft Continuous Easing (`--ease-in-out-soft`):** `cubic-bezier(0.4, 0, 0.2, 1)` for organic, non-mechanical breathing rhythms.
+- **Fast Feedback (`--transition-fast`):** `160ms` for immediate button hover lifts, color shifts, and click depressions (`:active`).
+- **Base State Change (`--transition-base`):** `280ms` for card lifts, FAQ grid expands, mobile menu slides, and modal entries.
+- **Entrance Duration (`--transition-entrance`):** `520ms` for progressive viewport scroll reveals (`[data-reveal]`).
+
+### Focal Moment & Ambient Sanctuary
+- **Authored Hero Focal Moment (Crayon Stroke):** Upon arrival, the vanilla pastel marker highlight (`.text-highlight::after`) progressively draws from left to right behind *"compreender emoções"* (`animation: crayon-draw 750ms var(--ease-out-expo) 320ms forwards;`), personifying the hand-crafted care of the brand.
+- **Sanctuary Ambient Rhythm:** Subtle, slow-breathing floating animations (`4.6s–6.4s` loops on `transform` only) on the crayon heart (`.hero-badge-heart`, `.about-doodle--heart`) and rainbow doodles (`.hero-badge-rainbow`, `.about-doodle--spiral`), evoking an affectionate and living clinic space.
+- **Welcoming Availability Pulse:** A reassuring, soft rose pulse on `.status-dot` (*"Tire suas dúvidas iniciais sem compromisso"*), communicating active openness to families.
+
+### Feedback & State Transitions
+- **Tactile Button Press:** Buttons elevate `-2px` with expanded rose glow on hover, rotate the WhatsApp icon slightly (`scale(1.08) rotate(-3deg)`), and respond instantly on click/tap with `transform: translateY(1px) scale(0.985);`.
+- **Card Depth & Icon Micro-Interactions:** Cards (`.sign-card`, `.pillar-card`, `.step-card`, `.contact-card`) lift smoothly (`translateY(-4px)`) with border highlight and subtle icon scaling (`1.06–1.08`). On touch devices (`@media (hover: none)`), sticky lifts are disabled in favor of active tap feedback.
+- **Smooth FAQ Accordion:** Expanded via CSS Grid (`grid-template-rows: 0fr ↔ 1fr`), rotating the plus icon 180° with a 90° crossfade on the vertical bar, completely eliminating height-jumping layout jank.
+- **Progressive Scroll Reveal & Stagger:** Content is 100% visible by default without JS; when JS is active (`html.js-ready`), sections rise smoothly (`16px` with `--ease-out-expo`), with grid children staggered in a 50ms cascade (capped at 240ms).
+
+### Reduced Motion Contract
+Under `@media (prefers-reduced-motion: reduce)`, all spatial movements, rotations, infinite floating loops, and status dot pulses are completely disabled (`animation: none !important; transform: none !important;`). The crayon marker renders fully drawn immediately, and all interactive feedback is communicated through instant, legible opacity and color shifts.
 
 ## Components
 

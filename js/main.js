@@ -128,11 +128,43 @@ function initMobileMenu() {
 }
 
 /* ============================================================================
-   3. FAQ ACCORDION ACESSÍVEL (TECLADO + ARIA)
+   3. FAQ ACCORDION ACESSÍVEL (TECLADO + ARIA + TRANSIÇÃO FLUIDA)
    ============================================================================ */
 function initFaqAccordion() {
   const triggers = Array.from(document.querySelectorAll('.faq-trigger'));
   if (!triggers.length) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function closePanel(triggerToClose, panelToClose) {
+    triggerToClose.setAttribute('aria-expanded', 'false');
+    if (!panelToClose) return;
+
+    if (prefersReduced) {
+      panelToClose.hidden = true;
+      panelToClose.classList.remove('is-open');
+      return;
+    }
+
+    panelToClose.classList.remove('is-open');
+    panelToClose.classList.add('is-closing');
+    setTimeout(() => {
+      panelToClose.hidden = true;
+      panelToClose.classList.remove('is-closing');
+    }, 280);
+  }
+
+  function openPanel(triggerToOpen, panelToOpen) {
+    triggerToOpen.setAttribute('aria-expanded', 'true');
+    if (!panelToOpen) return;
+
+    panelToOpen.classList.remove('is-closing');
+    panelToOpen.hidden = false;
+    // Garante acionamento suave da transição do CSS Grid
+    requestAnimationFrame(() => {
+      panelToOpen.classList.add('is-open');
+    });
+  }
 
   triggers.forEach((trigger, index) => {
     trigger.addEventListener('click', () => {
@@ -143,17 +175,19 @@ function initFaqAccordion() {
       // Fecha os demais itens para manter leitura limpa e focada
       triggers.forEach((otherTrigger) => {
         if (otherTrigger !== trigger) {
-          otherTrigger.setAttribute('aria-expanded', 'false');
           const otherPanelId = otherTrigger.getAttribute('aria-controls');
           const otherPanel = otherPanelId ? document.getElementById(otherPanelId) : null;
-          if (otherPanel) otherPanel.hidden = true;
+          if (otherTrigger.getAttribute('aria-expanded') === 'true') {
+            closePanel(otherTrigger, otherPanel);
+          }
         }
       });
 
       // Alterna o item clicado
-      trigger.setAttribute('aria-expanded', String(!isExpanded));
-      if (panel) {
-        panel.hidden = isExpanded;
+      if (isExpanded) {
+        closePanel(trigger, panel);
+      } else {
+        openPanel(trigger, panel);
       }
     });
 
