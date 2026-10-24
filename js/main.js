@@ -233,6 +233,14 @@ function initScrollUI() {
   function updateOnScroll() {
     const scrollY = window.scrollY || window.pageYOffset;
 
+    // Barra sutil de progresso de leitura no topo
+    const progressBar = document.getElementById('reading-progress');
+    if (progressBar) {
+      const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollTotal > 0 ? (scrollY / scrollTotal) * 100 : 0;
+      progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+    }
+
     if (header) {
       header.classList.toggle('is-scrolled', scrollY > 20);
     }
@@ -466,7 +474,76 @@ function initConversionTracking() {
 }
 
 /* ============================================================================
-   8. ANO ATUAL NO RODAPÉ E INICIALIZAÇÃO
+   8. MICROINTERAÇÕES DE DELIGHT: CÓPIA COM TOAST & TILT ORGÂNICO DO HERO
+   ============================================================================ */
+function initCopyActions() {
+  const copyButtons = document.querySelectorAll('.js-copy-btn');
+  const toast = document.getElementById('delight-toast');
+  let toastTimeout = null;
+
+  function showToast(message) {
+    if (!toast) return;
+
+    toast.innerHTML = `<span class="delight-toast-check" aria-hidden="true">&check;</span> <span>${message}</span>`;
+    toast.classList.add('is-active');
+
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      toast.classList.remove('is-active');
+    }, 2400);
+  }
+
+  copyButtons.forEach((btn) => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const textToCopy = btn.getAttribute('data-copy');
+      if (!textToCopy) return;
+
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        showToast(`${textToCopy} copiado!`);
+      } catch (_) {
+        showToast(`${textToCopy}`);
+      }
+    });
+  });
+}
+
+function initHeroScrapbookTilt() {
+  const heroFrame = document.querySelector('.hero-photo-frame');
+  if (!heroFrame) return;
+
+  const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!isFinePointer || prefersReduced) return;
+
+  heroFrame.addEventListener('mousemove', (e) => {
+    const rect = heroFrame.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -2.5;
+    const rotateY = ((x - centerX) / centerX) * 2.5;
+
+    heroFrame.style.transform = `perspective(800px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+  });
+
+  heroFrame.addEventListener('mouseleave', () => {
+    heroFrame.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
+    heroFrame.style.transition = 'transform 360ms var(--ease-out-expo)';
+  });
+
+  heroFrame.addEventListener('mouseenter', () => {
+    heroFrame.style.transition = 'none';
+  });
+}
+
+/* ============================================================================
+   9. ANO ATUAL NO RODAPÉ E INICIALIZAÇÃO
    ============================================================================ */
 function initCurrentYear() {
   const yearSpan = document.getElementById('current-year');
@@ -483,5 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initPrivacyAndLgpd();
   initConversionTracking();
+  initCopyActions();
+  initHeroScrapbookTilt();
   initCurrentYear();
 });

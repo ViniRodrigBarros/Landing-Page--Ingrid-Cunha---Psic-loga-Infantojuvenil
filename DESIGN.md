@@ -242,6 +242,18 @@ The motion system expresses the creative north star: **"O Consultório Acolhedor
 ### Reduced Motion Contract
 Under `@media (prefers-reduced-motion: reduce)`, all spatial movements, rotations, infinite floating loops, and status dot pulses are completely disabled (`animation: none !important; transform: none !important;`). The crayon marker renders fully drawn immediately, and all interactive feedback is communicated through instant, legible opacity and color shifts.
 
+## Experience & Delight Details
+
+Delight in this clinical setting is not generic whimsy or loud celebration; it is **character revealed through humane, considered utility**:
+
+- **Delight Thesis:** *"Ao navegar pela página, pais e responsáveis devem sentir o alívio imediato de serem verdadeiramente compreendidos, encontrando em cada detalhe o cuidado afetuoso de um consultório acolhedor e a segurança técnica de uma profissional ética."*
+- **1-Click Credential Copy with Serene Toast:** Parents verifying credentials for medical referrals or insurance reimbursement receipts can click the CRP chip (`.btn-copy-chip`) in `.about-crp-tag` or `.footer-crp` to copy `CRP 13/12719` with a tranquil, non-intrusive floating toast confirmation (*"CRP 13/12719 copiado! ✓"*).
+- **Themed Browser Surfaces:** Custom rounded Webkit scrollbars (`#E9A4A8` thumb on `#FDF9F3` track), soft charcoal on baunilha selection (`::selection`), rose text caret (`caret-color: #E9A4A8`), and generous `0.22em` underline offsets prevent generic un-themed browser defaults.
+- **Reading Progress Tracker:** An ultra-subtle, 3px gradient line (`Rosa Acolhimento ↔ Amarelo Baunilha`) pinned to the top of the sticky header quietly reflects reading progress as parents scroll through explanations.
+- **Interactive Cognitive Triad Flow:** Hovering on any of the 3 steps of the Cognitive Triad (`Pensamentos`, `Emoções`, `Comportamentos`) elevates the step with a custom pastel border and activates a directional nudge on `.triad-arrow`, visually reinforcing the interconnected mental model of TCC.
+- **End-of-FAQ Empathetic Support:** A gentle callout banner at the conclusion of the 8 FAQ items specifically invites parents with unique circumstances to send a pre-filled, low-friction message without the pressure of formulating a "perfect question".
+- **Tactile Scrapbook Depth:** Bounded, micro-tilt parallax perspective (`max 2.5deg`) on the Hero frame when desktop fine-pointer users interact with the portrait, evocative of an illustrated children's book.
+
 ## Components
 
 Components feel **soft, tactile, and reassuring**—combining generous pill and card radii, high-contrast charcoal labels, and subtle `200ms–320ms cubic-bezier(0.25, 1, 0.5, 1)` microinteractions (`translateY(-2px)` on buttons, `translateY(-4px)` on cards) that fully respect `prefers-reduced-motion: reduce`.

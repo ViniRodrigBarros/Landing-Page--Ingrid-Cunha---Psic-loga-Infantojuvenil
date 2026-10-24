@@ -127,12 +127,35 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   accent-color: var(--color-rose);
+  caret-color: var(--color-rose);
   scrollbar-color: var(--color-rose) var(--color-cream-soft);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1.5px;
 }
 
 ::selection {
   background-color: var(--color-vanilla);
   color: var(--color-charcoal);
+}
+
+/* Superfícies do Navegador Tematizadas (Craft Floor: acabamento aveludado e acolhedor) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream-soft);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-rose);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-cream-soft);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-rose-hover);
 }
 
 body {
@@ -480,6 +503,26 @@ button {
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(233, 164, 168, 0.22);
   transition: box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+/* Barra de Progresso de Leitura Suave no Topo */
+.reading-progress-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: transparent;
+  pointer-events: none;
+  z-index: 1010;
+}
+
+.reading-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-rose) 0%, var(--color-vanilla) 50%, var(--color-rose) 100%);
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  transition: width 60ms linear;
 }
 
 .site-header.is-scrolled {
@@ -1497,7 +1540,32 @@ html:not(.js-ready) .text-highlight::after {
 
 .triad-step {
   flex: 1;
-  padding: var(--space-xs);
+  padding: 0.65rem 0.55rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: transform var(--transition-base), background-color var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.triad-step:hover,
+.triad-step:focus-within {
+  transform: translateY(-2px);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+.triad-step--rose:hover,
+.triad-step--rose:focus-within {
+  border-color: var(--color-rose);
+}
+
+.triad-step--vanilla:hover,
+.triad-step--vanilla:focus-within {
+  border-color: var(--color-vanilla);
+}
+
+.triad-step--sky:hover,
+.triad-step--sky:focus-within {
+  border-color: var(--color-sky);
 }
 
 .triad-step--rose .triad-badge {
@@ -1863,6 +1931,42 @@ html:not(.js-ready) .text-highlight::after {
 .faq-panel-inner p {
   max-width: 65ch;
   line-height: 1.68;
+}
+
+/* Bloco de Acolhimento Extra no Fim do FAQ (Momento de Cuidado) */
+.faq-extra-callout {
+  margin-top: var(--space-lg);
+  padding: 1.25rem 1.5rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.faq-extra-callout:hover {
+  border-color: var(--color-rose);
+  box-shadow: var(--shadow-md);
+}
+
+.faq-extra-text strong {
+  display: block;
+  font-size: var(--text-base);
+  font-family: var(--font-heading);
+  color: var(--color-charcoal);
+  margin-bottom: 0.25rem;
+}
+
+.faq-extra-text span {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--color-charcoal-soft);
+  max-width: 55ch;
 }
 
 /* --------------------------------------------------------------------------
@@ -2389,6 +2493,99 @@ body.has-floating-cta .lgpd-banner {
 .modal-body p {
   font-size: var(--text-sm);
   margin-bottom: var(--space-sm);
+}
+
+/* Microinteração de Cópia Rápida com Feedback (Delight & Utilidade) */
+.btn-copy-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: var(--color-cream-soft);
+  color: var(--color-charcoal);
+  border: 1px solid var(--color-border);
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-pill);
+  font-family: inherit;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.btn-copy-chip:hover {
+  background-color: var(--color-rose);
+  border-color: var(--color-rose);
+  color: var(--color-charcoal);
+  transform: translateY(-1px);
+}
+
+.btn-copy-chip:active {
+  transform: translateY(0.5px) scale(0.97);
+}
+
+.btn-copy-chip--footer {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-vanilla);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-copy-chip--footer:hover {
+  background-color: var(--color-rose);
+  color: var(--color-charcoal);
+  border-color: var(--color-rose);
+}
+
+.copy-icon {
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+
+.btn-copy-chip:hover .copy-icon {
+  opacity: 1;
+}
+
+/* Toast Sereno de Confirmação (Feedback Acolhedor sem barulho visual) */
+.delight-toast {
+  position: fixed;
+  bottom: max(1.5rem, calc(1rem + env(safe-area-inset-bottom, 0px)));
+  left: 50%;
+  transform: translateX(-50%) translateY(24px);
+  background-color: var(--color-charcoal);
+  color: var(--color-white);
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  box-shadow: 0 10px 28px rgba(43, 38, 40, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 3000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 260ms var(--ease-out-expo), opacity 260ms ease, visibility 260ms;
+}
+
+.delight-toast.is-active {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.delight-toast-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background-color: var(--color-rose);
+  color: var(--color-charcoal);
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 /* --------------------------------------------------------------------------
