@@ -36,7 +36,7 @@ Clinical child and adolescent psychology (`Psicologia Clínica Infantojuvenil`) 
 - 10 ordered conversion sections:
   1. Sticky accessible Header
   2. High-impact mobile-first Hero with 3 real credential badges
-  3. Non-diagnostic Recognition of Signs (`Quando procurar ajuda?` — 7 cards)
+  3. Non-diagnostic Recognition of Signs (`Quando procurar ajuda?` — 3 cards)
   4. How I Can Help (`Atendimento Infantil`, `Atendimento de Adolescentes`, `Orientação de Pais`)
   5. About Ingrid Cunha (first-person official bio, education, and 3 differentials)
   6. TCC Approach explained simply for laypeople + active family partnership

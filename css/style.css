@@ -3063,7 +3063,7 @@ html.js-ready .signs-grid > [data-reveal]:nth-child(7) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .sign-card--wide {
+  .signs-grid .sign-card:last-child {
     grid-column: span 2;
   }
 
@@ -3109,6 +3109,14 @@ html.js-ready .signs-grid > [data-reveal]:nth-child(7) {
 
   .header-actions .btn-header span {
     display: inline;
+  }
+
+  .signs-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .signs-grid .sign-card:last-child {
+    grid-column: auto;
   }
 
   .pillars-grid {
@@ -3248,18 +3256,6 @@ html.js-ready .signs-grid > [data-reveal]:nth-child(7) {
 
   .signs-grid {
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  .sign-card--wide {
-    grid-column: span 3;
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-  }
-
-  .sign-card--wide .sign-card-icon {
-    margin-bottom: 0;
-    flex-shrink: 0;
   }
 
   .pillars-grid {
