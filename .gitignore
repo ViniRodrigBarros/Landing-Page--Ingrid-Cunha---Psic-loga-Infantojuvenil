@@ -1,0 +1,14 @@
+# Agent, AI assistant configs and skills
+.agent/
+.claude/
+.cursor/
+.gemini/
+.impeccable/
+
+# Temporary files & scratch scripts
+scratch/
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
