@@ -1653,50 +1653,12 @@ html:not(.js-ready) .text-highlight::after {
   box-sizing: border-box;
 }
 
-.deck-ambient-doodles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
 
-.deck-doodle {
-  position: absolute;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.deck-doodle--star {
-  top: -1rem;
-  left: -0.75rem;
-  width: 44px;
-  height: 44px;
-}
-
-.deck-doodle--spiral {
-  bottom: 7rem;
-  right: -0.85rem;
-  width: 76px;
-  height: 42px;
-  animation: doodle-drift-1 6s ease-in-out infinite 0.5s;
-}
-
-.deck-doodle--heart {
-  top: 1rem;
-  right: -0.75rem;
-  width: 52px;
-  height: 46px;
-  background-color: var(--color-white);
-  padding: 0.35rem;
-  border-radius: 50%;
-  box-shadow: var(--shadow-sm);
-  animation: doodle-drift-2 5.5s ease-in-out infinite 0.3s;
-}
 
 .deck-viewport {
   position: relative;
   width: 100%;
-  height: 505px;
+  height: 420px;
   user-select: none;
   -webkit-user-select: none;
   touch-action: pan-y;
@@ -1723,10 +1685,10 @@ html:not(.js-ready) .text-highlight::after {
   cursor: grab;
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
   box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
-  padding: 0.75rem;}
+  padding: 0.75rem;
+}
 
 .deck-sheet.is-dragging {
   cursor: grabbing;
@@ -1739,11 +1701,11 @@ html:not(.js-ready) .text-highlight::after {
 .deck-sheet-media {
   position: relative;
   width: 100%;
-  height: 58%;
+  height: 236px;
+  flex-shrink: 0;
   border-radius: var(--radius-lg);
   overflow: hidden;
   background-color: var(--color-vanilla);
-  
 }
 
 .deck-sheet-img {
@@ -1755,24 +1717,7 @@ html:not(.js-ready) .text-highlight::after {
   pointer-events: none;
 }
 
-.deck-sheet-badge {
-  position: absolute;
-  top: 0.65rem;
-  left: 0.65rem;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  padding: 0.28rem 0.65rem;
-  border-radius: 999px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  box-shadow: 0 2px 8px rgba(61, 53, 51, 0.16);
-  line-height: 1.25;
-}
 
-.deck-badge--rose {
-  background-color: var(--color-rose);
-  color: var(--color-charcoal);
-}
 
 .deck-badge--vanilla {
   background-color: var(--color-vanilla);
@@ -1784,12 +1729,12 @@ html:not(.js-ready) .text-highlight::after {
   color: var(--color-charcoal);
 }
 
-.deck-sheet-content {
+.deck-sheet-body {
   flex: 1;
-  padding: 0.75rem 0.35rem 0.25rem;
+  padding: 0.75rem 0.35rem 0.2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .deck-sheet-title {
@@ -1803,12 +1748,12 @@ html:not(.js-ready) .text-highlight::after {
 .deck-sheet-sub {
   font-size: 0.78rem;
   font-weight: 600;
-  color: var(--color-rose-dark);
+  color: var(--color-charcoal-muted);
   margin: 0 0 0.35rem;
 }
 
 .deck-sheet-desc {
-  font-size: 0.84rem;
+  font-size: 0.835rem;
   color: var(--color-charcoal-soft);
   line-height: 1.45;
   margin: 0;
@@ -1820,19 +1765,21 @@ html:not(.js-ready) .text-highlight::after {
 
 /* Controles de navegação com estilo de giz */
 .deck-controls {
-  margin-top: 1.15rem;
+  margin-top: 3.25rem;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  padding: 0 0.25rem;
+  padding: 0 0.5rem;
   box-sizing: border-box;
 }
 
 .deck-nav-btn {
   width: 2.85rem;
   height: 2.85rem;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   background-color: var(--color-white);
   border: 2px dashed var(--color-rose);
@@ -1849,11 +1796,17 @@ html:not(.js-ready) .text-highlight::after {
   transform: scale(1.08);
   background-color: var(--color-rose-soft);
   border-style: solid;
-  color: var(--color-rose-dark);
+  border-color: var(--color-rose-hover);
+  color: var(--color-charcoal);
 }
 
 .deck-nav-btn:active {
   transform: scale(0.94);
+}
+
+.deck-nav-btn:focus-visible {
+  outline: 2px solid var(--color-charcoal);
+  outline-offset: 3px;
 }
 
 .deck-indicator {
@@ -1864,80 +1817,139 @@ html:not(.js-ready) .text-highlight::after {
 }
 
 .deck-indicator-count {
-  font-size: 0.98rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-charcoal);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
 }
 
 .deck-indicator-hint {
   font-size: 0.8125rem;
   color: var(--color-charcoal-muted);
-  margin-top: 0.1rem;
+  margin-top: 0.25rem;
+  line-height: 1.3;
 }
 
 .deck-crp-tag {
   position: static;
-  margin-top: 1.15rem;
+  margin-top: 1.35rem;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Animaçãozinha de giz arrodeando a foto */
-.deck-chalk-contour {
+/* ==========================================================================
+   Ilustrações em Giz Animadas Progressivamente (4 Padrões Dinâmicos)
+   ========================================================================== */
+.deck-chalk-stage {
   position: absolute;
-  inset: -6px;
-  width: calc(100% + 12px);
-  height: calc(100% + 12px);
+  top: -1.75rem;
+  left: -1.4rem;
+  width: 90px;
+  height: 80px;
   pointer-events: none;
-  z-index: 1500;
+  z-index: 45;
   overflow: visible;
-  opacity: 0;
   transition: opacity 0.2s ease;
 }
 
-.deck-chalk-contour.is-drawing {
-  opacity: 1;
+.deck-chalk-canvas {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-.deck-chalk-contour.is-drawing .deck-chalk-path {
-  stroke-dasharray: 1800;
-  stroke-dashoffset: 1800;
-  animation: deckChalkStrokeDraw 0.65s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+.deck-chalk-group {
+  display: none;
 }
 
-.deck-chalk-contour.is-drawing .deck-chalk-sparkle-1,
-.deck-chalk-contour.is-drawing .deck-chalk-sparkle-2 {
+.deck-chalk-stage[data-pattern="1"] .deck-chalk-group--1,
+.deck-chalk-stage[data-pattern="2"] .deck-chalk-group--2,
+.deck-chalk-stage[data-pattern="3"] .deck-chalk-group--3,
+.deck-chalk-stage[data-pattern="4"] .deck-chalk-group--4 {
+  display: block;
+}
+
+/* Animação progressiva traço por traço (como desenhado a mão) */
+.deck-chalk-stage.is-drawing .chalk-draw-path {
+  stroke-dasharray: 1 1.2;
+  stroke-dashoffset: 1.02;
+  animation: deckChalkStrokeDraw 0.55s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+}
+
+/* Stagger orgânico para os 3 arcos do mini arco-íris (Padrão 4) */
+.deck-chalk-stage.is-drawing .chalk-path--arc-1 {
+  animation-delay: 0ms;
+}
+
+.deck-chalk-stage.is-drawing .chalk-path--arc-2 {
+  animation-delay: 85ms;
+}
+
+.deck-chalk-stage.is-drawing .chalk-path--arc-3 {
+  animation-delay: 170ms;
+}
+
+/* Stagger para estrelinha secundária e raios */
+.deck-chalk-stage.is-drawing .chalk-path--star-baby,
+.deck-chalk-stage.is-drawing .chalk-path--ray-1 {
+  animation-delay: 110ms;
+}
+
+.deck-chalk-stage.is-drawing .chalk-path--ray-2 {
+  animation-delay: 180ms;
+}
+
+/* Efeito pop nos pontinhos de giz/brilho */
+.deck-chalk-stage .chalk-pop-dot {
+  opacity: 0;
+  transform-box: fill-box;
   transform-origin: center;
-  animation: deckChalkSparklePop 0.55s ease 0.15s forwards;
+  transform: scale(0);
+}
+
+.deck-chalk-stage.is-drawing .chalk-pop-dot {
+  animation: deckChalkDotPop 0.4s var(--ease-out-expo) 0.24s forwards;
+}
+
+/* Estado estático / final mantido na foto após o traçado */
+.deck-chalk-stage:not(.is-drawing) .chalk-draw-path {
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+  opacity: 0.95;
+}
+
+.deck-chalk-stage:not(.is-drawing) .chalk-pop-dot {
+  opacity: 0.95;
+  transform: scale(1);
 }
 
 @keyframes deckChalkStrokeDraw {
   0% {
-    stroke-dashoffset: 1800;
+    stroke-dashoffset: 1.02;
+    opacity: 0;
   }
-  85% {
-    stroke-dashoffset: 0;
+  10% {
     opacity: 1;
   }
   100% {
     stroke-dashoffset: 0;
-    opacity: 0.85;
+    opacity: 0.95;
   }
 }
 
-@keyframes deckChalkSparklePop {
+@keyframes deckChalkDotPop {
   0% {
-    transform: scale(0);
     opacity: 0;
+    transform: scale(0);
   }
   60% {
-    transform: scale(1.3);
     opacity: 1;
+    transform: scale(1.25);
   }
   100% {
+    opacity: 0.95;
     transform: scale(1);
-    opacity: 0.9;
   }
 }
 
@@ -3252,7 +3264,8 @@ html.js-ready .signs-grid > [data-reveal]:nth-child(7) {
   }
 
   .chalk-stroke,
-  .chalk-arc {
+  .chalk-arc,
+  .chalk-draw-path {
     stroke-dashoffset: 0 !important;
     stroke-dasharray: none !important;
     opacity: 1 !important;
@@ -3260,6 +3273,7 @@ html.js-ready .signs-grid > [data-reveal]:nth-child(7) {
 
   .chalk-fill,
   .chalk-sparkle,
+  .chalk-pop-dot,
   .hero-badge-heart {
     opacity: 1 !important;
     transform: none !important;

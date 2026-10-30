@@ -30,8 +30,8 @@ window.addEventListener('beforeunload', () => {
    Todos os botões de WhatsApp da página utilizam esta constante.
    ============================================================================ */
 const WHATSAPP_CONFIG = Object.freeze({
-  // Número oficial de atendimento WhatsApp da psicóloga Ingrid Cunha: +55 (83) 98604-3830
-  phone: '5583986043830',
+  // Número oficial de atendimento WhatsApp da psicóloga Ingrid Cunha: +55 (83) 8671-8440
+  phone: '558386718440',
 
   // Mensagem pré-preenchida editável em um só lugar:
   message:
@@ -661,7 +661,7 @@ function initThrowDeck() {
   const countEl = document.getElementById('deck-count');
   const prevBtn = document.getElementById('deck-btn-prev');
   const nextBtn = document.getElementById('deck-btn-next');
-  const chalkContour = document.getElementById('deck-chalk-contour');
+  const chalkStage = document.getElementById('deck-chalk-stage');
 
   if (!viewport || !track) return;
 
@@ -875,24 +875,24 @@ function initThrowDeck() {
   }
 
   function triggerChalkAnimation() {
-    if (!chalkContour || isReducedMotion) return;
-    const topCard = cardElements[order[0]];
-    const badge = topCard ? topCard.querySelector('.deck-sheet-badge') : null;
-    let color = '#E9A4A8';
-    if (badge) {
-      if (badge.classList.contains('deck-badge--sky')) color = '#76C2D0';
-      else if (badge.classList.contains('deck-badge--vanilla')) color = '#E8B87C';
+    if (!chalkStage) return;
+    const topIndex = order[0] ?? 0;
+    const patternNum = (topIndex % 4) + 1;
+    chalkStage.setAttribute('data-pattern', String(patternNum));
+
+    if (isReducedMotion) {
+      chalkStage.classList.remove('is-drawing');
+      return;
     }
 
-    chalkContour.style.setProperty('--chalk-accent', color);
-    chalkContour.classList.remove('is-drawing');
-    void chalkContour.offsetWidth; // Dispara reflow para reiniciar keyframe SVG
-    chalkContour.classList.add('is-drawing');
+    chalkStage.classList.remove('is-drawing');
+    void chalkStage.offsetWidth; // Dispara reflow no DOM para reiniciar os keyframes SVG
+    chalkStage.classList.add('is-drawing');
 
     clearTimeout(chalkTimeout);
     chalkTimeout = setTimeout(() => {
-      chalkContour.classList.remove('is-drawing');
-    }, 750);
+      chalkStage.classList.remove('is-drawing');
+    }, 650);
   }
 
   function updateUI() {

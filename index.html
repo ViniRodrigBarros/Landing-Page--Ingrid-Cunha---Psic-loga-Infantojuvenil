@@ -262,7 +262,7 @@
         </ul>
         <div class="nav-mobile-cta">
           <a
-            href="https://wa.me/5583986043830"
+            href="https://wa.me/558386718440"
             class="btn btn-primary btn-full js-whatsapp-link"
             data-track="cta-whatsapp-menu-mobile"
             target="_blank"
@@ -278,7 +278,7 @@
       <!-- Ações do Header -->
       <div class="header-actions">
         <a
-          href="https://wa.me/5583986043830"
+          href="https://wa.me/558386718440"
           class="btn btn-header js-whatsapp-link"
           data-track="cta-whatsapp-header"
           aria-label="Agendar conversa pelo WhatsApp"
@@ -339,7 +339,7 @@
           <!-- CTAs Principal e Secundário -->
           <div class="hero-cta-group">
             <a
-              href="https://wa.me/5583986043830"
+              href="https://wa.me/558386718440"
               class="btn btn-primary btn-lg js-whatsapp-link"
               data-track="cta-whatsapp-hero"
               target="_blank"
@@ -547,7 +547,7 @@
             </p>
           </div>
           <a
-            href="https://wa.me/5583986043830"
+            href="https://wa.me/558386718440"
             class="btn btn-primary js-whatsapp-link"
             data-track="cta-whatsapp-sinais"
             data-whatsapp-message="Olá, Ingrid! Vi seu site e gostaria de conversar sobre alguns sinais que tenho observado no desenvolvimento do meu filho(a)."
@@ -657,29 +657,49 @@
              Asset: assets/ingrid.png (404x762px, PNG transparente) sobre arco Amarelo Baunilha (#F6DEBC) -->
         <div class="about-visual" data-reveal="fade-up">
           <div class="deck-wrapper">
-            <!-- Grafismos ambientais de giz ao redor da pilha -->
-            <div class="deck-ambient-doodles" aria-hidden="true">
-              <img src="assets/icons/star-4.svg" alt="" width="44" height="44" class="deck-doodle deck-doodle--star" loading="lazy" decoding="async">
-              <img src="assets/icons/spiral-doodle.svg" alt="" width="76" height="42" class="deck-doodle deck-doodle--spiral" loading="lazy" decoding="async">
-              <img src="assets/coracao.png" alt="" width="56" height="49" class="deck-doodle deck-doodle--heart" loading="lazy" decoding="async">
-            </div>
 
             <!-- Viewport da Pilha de Cartas -->
             <div class="deck-viewport" id="deck-viewport" role="region" aria-label="Galeria de fotos do atendimento e recursos terapêuticos">
-              <!-- Traçado de Giz Dinâmico (Anima ao passar de foto) -->
-              <svg class="deck-chalk-contour" id="deck-chalk-contour" viewBox="0 0 380 510" aria-hidden="true">
-                <defs>
-                  <filter id="deck-crayon-contour" x="-10%" y="-10%" width="120%" height="120%">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" seed="18" result="noise" />
-                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.6" xChannelSelector="R" yChannelSelector="G" />
-                  </filter>
-                </defs>
-                <g filter="url(#deck-crayon-contour)">
-                  <rect class="deck-chalk-path" x="6" y="6" width="368" height="498" rx="26" fill="none" stroke="var(--chalk-accent, #E9A4A8)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                  <path class="deck-chalk-sparkle-1" d="M 345 32 Q 345 44 357 44 Q 345 44 345 56 Q 345 44 333 44 Q 345 44 345 32 Z" fill="#F6DEBC" />
-                  <path class="deck-chalk-sparkle-2" d="M 28 475 Q 28 484 37 484 Q 28 484 28 493 Q 28 484 19 484 Q 28 484 28 475 Z" fill="#BAE5ED" />
-                </g>
-              </svg>
+              <!-- Ilustrações em Giz Animadas Progressivamente (Alternam a cada foto) -->
+              <div class="deck-chalk-stage" id="deck-chalk-stage" data-pattern="1" aria-hidden="true">
+                <svg class="deck-chalk-canvas" viewBox="0 0 100 90" width="100" height="90">
+                  <defs>
+                    <filter id="deck-crayon-art-filter" x="-12%" y="-12%" width="124%" height="124%">
+                      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" seed="14" result="noise" />
+                      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+                    </filter>
+                  </defs>
+
+                  <!-- Padrão 1: Coração desenhado a giz traço a traço (Rosa Acolhimento) -->
+                  <g class="deck-chalk-group deck-chalk-group--1" filter="url(#deck-crayon-art-filter)">
+                    <path class="chalk-draw-path chalk-path--heart" pathLength="1" d="M 50 68 C 34 54, 16 38, 16 22 C 16 9, 31 7, 50 22 C 69 7, 84 9, 84 22 C 84 38, 66 54, 50 68 Z" fill="none" stroke="#E9A4A8" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="chalk-pop-dot chalk-dot--h1" d="M 76 12 Q 76 17 81 17 Q 76 17 76 22 Q 76 17 71 17 Q 76 17 76 12 Z" fill="#F6DEBC" />
+                    <path class="chalk-pop-dot chalk-dot--h2" d="M 18 44 Q 18 48 22 48 Q 18 48 18 52 Q 18 48 14 48 Q 18 48 18 44 Z" fill="#BAE5ED" />
+                  </g>
+
+                  <!-- Padrão 2: Estrela de 4 pontas desenhada a giz + estrelinha (Amarelo Baunilha) -->
+                  <g class="deck-chalk-group deck-chalk-group--2" filter="url(#deck-crayon-art-filter)">
+                    <path class="chalk-draw-path chalk-path--star" pathLength="1" d="M 46 8 Q 46 44 82 44 Q 46 44 46 80 Q 46 44 10 44 Q 46 44 46 8 Z" fill="none" stroke="#E5B676" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="chalk-draw-path chalk-path--star-baby" pathLength="1" d="M 74 10 Q 74 20 84 20 Q 74 20 74 30 Q 74 20 64 20 Q 74 20 74 10 Z" fill="none" stroke="#E9A4A8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="chalk-pop-dot chalk-dot--s1" d="M 22 62 Q 22 66 26 66 Q 22 66 22 70 Q 22 66 18 66 Q 22 66 22 62 Z" fill="#BAE5ED" />
+                  </g>
+
+                  <!-- Padrão 3: Espiral e laço lúdico desenhado a mão (Azul Serenidade) -->
+                  <g class="deck-chalk-group deck-chalk-group--3" filter="url(#deck-crayon-art-filter)">
+                    <path class="chalk-draw-path chalk-path--spiral" pathLength="1" d="M 14 56 C 26 24, 52 18, 56 34 C 60 48, 38 56, 44 68 C 50 78, 72 70, 78 48 C 83 34, 91 32, 94 38" fill="none" stroke="#6DBCCB" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="chalk-draw-path chalk-path--ray-1" pathLength="1" d="M 80 18 L 86 12" fill="none" stroke="#E9A4A8" stroke-width="3" stroke-linecap="round" />
+                    <path class="chalk-draw-path chalk-path--ray-2" pathLength="1" d="M 90 24 L 96 20" fill="none" stroke="#F6DEBC" stroke-width="3" stroke-linecap="round" />
+                  </g>
+
+                  <!-- Padrão 4: Mini arco-íris em 3 arcos desenhados progressivamente + brilho -->
+                  <g class="deck-chalk-group deck-chalk-group--4" filter="url(#deck-crayon-art-filter)">
+                    <path class="chalk-draw-path chalk-path--arc-1" pathLength="1" d="M 14 66 C 14 20, 80 20, 80 66" fill="none" stroke="#E9A4A8" stroke-width="5.5" stroke-linecap="round" />
+                    <path class="chalk-draw-path chalk-path--arc-2" pathLength="1" d="M 24 66 C 24 32, 70 32, 70 66" fill="none" stroke="#F6DEBC" stroke-width="4.8" stroke-linecap="round" />
+                    <path class="chalk-draw-path chalk-path--arc-3" pathLength="1" d="M 34 66 C 34 44, 60 44, 60 66" fill="none" stroke="#76C2D0" stroke-width="4.2" stroke-linecap="round" />
+                    <path class="chalk-pop-dot chalk-dot--rainbow" d="M 78 12 Q 78 18 84 18 Q 78 18 78 24 Q 78 18 72 18 Q 78 18 78 12 Z" fill="#F6DEBC" />
+                  </g>
+                </svg>
+              </div>
 
               <!-- Trilho com os 12 cards reais -->
               <div class="deck-track" id="deck-track">
@@ -687,7 +707,6 @@
                 <article class="deck-sheet" data-index="0" data-id="ingrid-retrato">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-01-ingrid-retrato.jpg" alt="Ingrid Cunha sorrindo no consultório" class="deck-sheet-img" loading="eager" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--rose">Acolhimento &amp; Escuta</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">Ingrid Cunha &bull; Psicóloga</h4>
@@ -700,7 +719,6 @@
                 <article class="deck-sheet" data-index="1" data-id="consultorio">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-02-consultorio.jpg" alt="Espaço preparado com bancada lúdica e livros infantis" class="deck-sheet-img" loading="lazy" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--sky">Espaço Terapêutico</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">Ambiente Seguro para Crianças</h4>
@@ -713,7 +731,6 @@
                 <article class="deck-sheet" data-index="2" data-id="emocoes">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-03-emocoes-divertidamente.jpg" alt="Cartões ilustrados para identificação de emoções como tristeza, medo e raiva" class="deck-sheet-img" loading="lazy" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--vanilla">Alfabetização Emocional</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">Identificação das Emoções</h4>
@@ -726,7 +743,6 @@
                 <article class="deck-sheet" data-index="3" data-id="jogo-coragem">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-04-jogo-coragem.jpg" alt="Tabuleiro e cartas do Jogo da Coragem para superação de medos" class="deck-sheet-img" loading="lazy" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--rose">Enfrentamento de Medos</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">Jogo da Coragem</h4>
@@ -739,7 +755,6 @@
                 <article class="deck-sheet" data-index="4" data-id="pipoca-sentimentos">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-05-pipoca-sentimentos.jpg" alt="Atividade da Pipoca dos Sentimentos para lidar com frustração e regras" class="deck-sheet-img" loading="lazy" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--vanilla">Família &amp; Limites</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">Pipoca dos Sentimentos</h4>
@@ -752,7 +767,6 @@
                 <article class="deck-sheet" data-index="5" data-id="hora-do-rush">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-06-hora-do-rush.jpg" alt="Jogo de raciocínio lógico Hora do Rush com carros coloridos e desafios" class="deck-sheet-img" loading="lazy" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--sky">Funções Executivas</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">Hora do Rush &bull; Raciocínio</h4>
@@ -765,7 +779,6 @@
                 <article class="deck-sheet" data-index="6" data-id="ficha-advogado">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-07-ficha-advogado.jpg" alt="Folhas de exercícios da TCC Ficha do Advogado para questionar pensamentos negativos" class="deck-sheet-img" loading="lazy" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--rose">TCC Prática</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">Ficha do Advogado</h4>
@@ -778,7 +791,6 @@
                 <article class="deck-sheet" data-index="7" data-id="capivara-corajosa">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-08-capivara-corajosa.jpg" alt="Prancha da história As Aventuras da Capivara Corajosa com planetas lúdicos" class="deck-sheet-img" loading="lazy" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--vanilla">Narrativa Terapêutica</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">Aventuras da Capivara Corajosa</h4>
@@ -791,7 +803,6 @@
                 <article class="deck-sheet" data-index="8" data-id="missao-stitch">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-09-missao-stitch.jpg" alt="Painel temático do Stitch no espaço com estrelas de recompensa" class="deck-sheet-img" loading="lazy" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--sky">Metas &amp; Motivação</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">A Missão Corajosa do Stitch</h4>
@@ -804,7 +815,6 @@
                 <article class="deck-sheet" data-index="9" data-id="rotina-semanal">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-10-rotina-semanal.jpg" alt="Quadro de rotina semanal para organização de estudos e hábitos" class="deck-sheet-img" loading="lazy" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--rose">Adolescentes</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">Rotina Semanal &bull; Organização</h4>
@@ -817,7 +827,6 @@
                 <article class="deck-sheet" data-index="10" data-id="jogos-chao">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-11-jogos-chao.jpg" alt="Tapete acolchoado com quebra-cabeças e jogos interativos no chão" class="deck-sheet-img" loading="lazy" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--vanilla">Ludoterapia</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">Recursos Lúdicos de Chão</h4>
@@ -830,7 +839,6 @@
                 <article class="deck-sheet" data-index="11" data-id="planejamento-clinico">
                   <div class="deck-sheet-media">
                       <img src="assets/fotos-componente/deck-12-planejamento-clinico.jpg" alt="Ingrid Cunha organizando sessões e materiais clínicos individualizados" class="deck-sheet-img" loading="lazy" decoding="async">
-                      <span class="deck-sheet-badge deck-badge--sky">Cuidado Personalizado</span>
                     </div>
                     <div class="deck-sheet-body">
                       <h4 class="deck-sheet-title">Planejamento Individualizado</h4>
@@ -1005,7 +1013,7 @@
             </div>
 
             <a
-              href="https://wa.me/5583986043830"
+              href="https://wa.me/558386718440"
               class="btn btn-secondary btn-full js-whatsapp-link"
               data-track="cta-whatsapp-abordagem"
               data-whatsapp-message="Olá, Ingrid! Vi seu site e gostaria de tirar algumas dúvidas sobre como funciona a abordagem da TCC na prática."
@@ -1077,7 +1085,7 @@
 
         <div class="section-cta-center" data-reveal="fade-up">
           <a
-            href="https://wa.me/5583986043830"
+            href="https://wa.me/558386718440"
             class="btn btn-primary btn-lg js-whatsapp-link"
             data-track="cta-whatsapp-processo"
             data-whatsapp-message="Olá, Ingrid! Vi seu site e gostaria de dar o primeiro passo para agendar uma conversa inicial."
@@ -1349,7 +1357,7 @@
             <span>Não se preocupe em formular a pergunta perfeita: envie uma mensagem no WhatsApp e conversamos com calma.</span>
           </div>
           <a
-            href="https://wa.me/5583986043830"
+            href="https://wa.me/558386718440"
             class="btn btn-secondary btn-sm js-whatsapp-link"
             data-track="cta-whatsapp-faq-extra"
             data-whatsapp-message="Olá, Ingrid! Li as dúvidas frequentes no site, mas gostaria de tirar uma dúvida específica sobre a situação do meu filho(a)."
@@ -1388,7 +1396,7 @@
 
           <div class="final-cta-actions">
             <a
-              href="https://wa.me/5583986043830"
+              href="https://wa.me/558386718440"
               class="btn btn-primary btn-lg js-whatsapp-link"
               data-track="cta-whatsapp-final"
               target="_blank"
@@ -1451,14 +1459,14 @@
             <!-- [EDITÁVEL: O número do WhatsApp é atualizado automaticamente via WHATSAPP_CONFIG em js/main.js] -->
             <p class="contact-detail">
               <a
-                href="https://wa.me/5583986043830"
+                href="https://wa.me/558386718440"
                 class="js-whatsapp-link"
                 data-track="cta-whatsapp-contato"
                 data-whatsapp-message="Olá, Ingrid! Vi seu site e gostaria de verificar a disponibilidade de horários e informações de atendimento."
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                (83) 98604-3830
+                (83) 8671-8440
               </a>
             </p>
             <p class="contact-subdetail">Conversar pelo WhatsApp para dúvidas e agendamentos</p>
@@ -1469,9 +1477,18 @@
             <div class="contact-icon contact-icon--insta" aria-hidden="true">
               <img src="assets/icons/insta.png" alt="" width="24" height="24" loading="lazy" decoding="async">
             </div>
-            <h3>Instagram Profissional</h3>
-            <!-- [EDITÁVEL: Substitua o href pela URL oficial do Instagram da profissional] -->
-            <p class="contact-detail">Ingrid Cunha &bull; Psicologia</p>
+                        <h3>Instagram Profissional</h3>
+            <p class="contact-detail">
+              <a
+                href="https://www.instagram.com/ingridcunhapsi/"
+                class="contact-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Acessar o perfil de Ingrid Cunha no Instagram @ingridcunhapsi"
+              >
+                @ingridcunhapsi
+              </a>
+            </p>
             <p class="contact-subdetail">Conteúdos sobre infância, adolescência e família</p>
           </div>
         </div>
@@ -1545,7 +1562,7 @@
        EXTRA 1: BOTÃO FLUTUANTE DE WHATSAPP (Aparece após rolar a página)
        ========================================================================== -->
   <a
-    href="https://wa.me/5583986043830"
+    href="https://wa.me/558386718440"
     class="floating-whatsapp js-whatsapp-link"
     id="floating-whatsapp"
     data-track="cta-whatsapp-floating"
@@ -1566,7 +1583,7 @@
       <span>Psicóloga Infantojuvenil &bull; TCC</span>
     </div>
     <a
-      href="https://wa.me/5583986043830"
+      href="https://wa.me/558386718440"
       class="btn btn-primary btn-sm js-whatsapp-link"
       data-track="cta-whatsapp-mobile-bar"
       target="_blank"
