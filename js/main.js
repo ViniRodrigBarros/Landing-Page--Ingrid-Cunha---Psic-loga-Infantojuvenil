@@ -650,6 +650,487 @@ function initHeroChalkReplay() {
   observer.observe(heroVisual);
 }
 
+/* ============================================================================
+   11. OVERDRIVE: THROW DECK INTERATIVO DE FOTOS E RECURSOS TERAPÊUTICOS
+   Física de molas em Vanilla JS (60fps), gestos touch com bloqueio vertical,
+   traçado dinâmico em giz e suporte a acessibilidade (WCAG AA).
+   ============================================================================ */
+function initThrowDeck() {
+  const viewport = document.getElementById('deck-viewport');
+  const track = document.getElementById('deck-track');
+  const countEl = document.getElementById('deck-count');
+  const prevBtn = document.getElementById('deck-btn-prev');
+  const nextBtn = document.getElementById('deck-btn-next');
+  const chalkContour = document.getElementById('deck-chalk-contour');
+
+  if (!viewport || !track) return;
+
+  const cardElements = Array.from(track.querySelectorAll('.deck-sheet'));
+  const count = cardElements.length;
+  if (count === 0) return;
+
+  // Parâmetros de física e molas (compatíveis com 60fps em mobile e desktop)
+  const TILTS = [0, -2.2, 1.8, -1.2];
+  const SLOT_Y = 8;
+  const SLOT_SCALE = 0.035;
+  const MAX_SLOT = TILTS.length - 1;
+
+  const MAX_DRAG_ROTATION = 16;
+  const THROW_VELOCITY = 0.45;
+  const THROW_DISTANCE = 0.32;
+  const TAP_SLOP = 6;
+  const VELOCITY_WINDOW = 90;
+
+  const HOME = { k: 420, c: 30 };
+  const FLIGHT = { k: 150, c: 15 };
+  const RETURN = { k: 240, c: 26 };
+  const TOP_Z = 1000;
+
+  function slotPose(depth) {
+    const d = Math.min(depth, MAX_SLOT);
+    return {
+      x: 0,
+      y: d * SLOT_Y,
+      r: TILTS[d] || 0,
+      s: 1 - d * SLOT_SCALE
+    };
+  }
+
+  function lerpPose(a, b, t) {
+    return {
+      x: a.x + (b.x - a.x) * t,
+      y: a.y + (b.y - a.y) * t,
+      r: a.r + (b.r - a.r) * t,
+      s: a.s + (b.s - a.s) * t
+    };
+  }
+
+  function poseTransform(p) {
+    return `translate3d(${p.x.toFixed(2)}px, ${p.y.toFixed(2)}px, 0) rotate(${p.r.toFixed(3)}deg) scale(${p.s.toFixed(4)})`;
+  }
+
+  function makeBody(depth) {
+    const pose = slotPose(depth);
+    return {
+      ...pose,
+      vx: 0,
+      vy: 0,
+      vr: 0,
+      vs: 0,
+      phase: 'rest',
+      out: pose,
+      dx: 1,
+      dy: 0,
+      z: null,
+      apexZ: null
+    };
+  }
+
+  function springAxis(value, velocity, target, spring, dt) {
+    const accel = -spring.k * (value - target) - spring.c * velocity;
+    const v = velocity + accel * dt;
+    return [value + v * dt, v];
+  }
+
+  function stepBody(body, target, dt) {
+    let spring = HOME;
+    if (body.phase === 'out') spring = FLIGHT;
+    else if (body.phase === 'return') spring = RETURN;
+
+    const steps = Math.max(1, Math.ceil(dt * 240));
+    const h = dt / steps;
+    for (let i = 0; i < steps; i++) {
+      [body.x, body.vx] = springAxis(body.x, body.vx, target.x, spring, h);
+      [body.y, body.vy] = springAxis(body.y, body.vy, target.y, spring, h);
+      [body.r, body.vr] = springAxis(body.r, body.vr, target.r, spring, h);
+      [body.s, body.vs] = springAxis(body.s, body.vs, target.s, spring, h);
+    }
+  }
+
+  function isSettled(body, target) {
+    return (
+      Math.abs(body.x - target.x) < 0.1 &&
+      Math.abs(body.y - target.y) < 0.1 &&
+      Math.abs(body.r - target.r) < 0.02 &&
+      Math.abs(body.s - target.s) < 0.0005 &&
+      Math.abs(body.vx) + Math.abs(body.vy) < 2 &&
+      Math.abs(body.vr) < 1 &&
+      Math.abs(body.vs) < 0.01
+    );
+  }
+
+  function clearance(w, h, ux, uy) {
+    const along = Math.min(
+      ux === 0 ? Infinity : w / Math.abs(ux),
+      uy === 0 ? Infinity : h / Math.abs(uy)
+    );
+    return along + 32;
+  }
+
+  function releaseVelocity(samples) {
+    const lastSample = samples[samples.length - 1];
+    const firstSample = samples.find(s => lastSample && lastSample.t - s.t <= VELOCITY_WINDOW);
+    if (!firstSample || !lastSample || lastSample.t - firstSample.t < 8) {
+      return { vx: 0, vy: 0 };
+    }
+    const dt = lastSample.t - firstSample.t;
+    return {
+      vx: (lastSample.x - firstSample.x) / dt,
+      vy: (lastSample.y - firstSample.y) / dt
+    };
+  }
+
+  // Estado do deck
+  let order = Array.from({ length: count }, (_, i) => i);
+  let bodies = order.map(i => makeBody(i));
+  let drag = null;
+  let progress = 0;
+  let rafId = 0;
+  let lastTime = 0;
+  let chalkTimeout = null;
+
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let isReducedMotion = reducedMotionQuery.matches;
+  reducedMotionQuery.addEventListener('change', e => {
+    isReducedMotion = e.matches;
+  });
+
+  function write(index, depth) {
+    const node = cardElements[index];
+    const body = bodies[index];
+    if (!node || !body) return;
+
+    node.style.transform = poseTransform(body);
+    node.style.zIndex = String(body.z ?? (order.length - depth));
+    const isTop = depth === 0;
+    node.setAttribute('aria-hidden', String(!isTop));
+    if (isTop) {
+      node.removeAttribute('tabindex');
+    } else {
+      node.setAttribute('tabindex', '-1');
+    }
+  }
+
+  function targetFor(body, depth) {
+    if (body.phase === 'out') return body.out;
+    const pose = slotPose(depth);
+    if (depth > 0 && progress > 0) {
+      return lerpPose(pose, slotPose(depth - 1), progress * 0.6);
+    }
+    return pose;
+  }
+
+  function advance(index, depth, dt) {
+    const body = bodies[index];
+    if (!body) return false;
+
+    if (body.phase === 'drag') {
+      write(index, depth);
+      return true;
+    }
+
+    if (isReducedMotion && body.phase === 'out') {
+      body.phase = 'rest';
+      body.z = null;
+    }
+
+    const target = targetFor(body, depth);
+    if (isReducedMotion) {
+      Object.assign(body, target, { vx: 0, vy: 0, vr: 0, vs: 0 });
+    } else {
+      stepBody(body, target, dt);
+    }
+
+    if (body.phase === 'out' && body.vx * body.dx + body.vy * body.dy <= 0) {
+      body.phase = 'return';
+      body.z = body.apexZ;
+    }
+
+    const settled = isSettled(body, target);
+    if (settled && body.phase !== 'out') {
+      body.phase = 'rest';
+      body.z = null;
+    }
+
+    write(index, depth);
+    return !settled;
+  }
+
+  function tick(now) {
+    const dt = Math.min((now - lastTime) / 1000, 1 / 30);
+    lastTime = now;
+    let active = false;
+    order.forEach((index, depth) => {
+      if (advance(index, depth, dt)) {
+        active = true;
+      }
+    });
+    rafId = active ? requestAnimationFrame(tick) : 0;
+  }
+
+  function kick() {
+    if (rafId) return;
+    lastTime = performance.now();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function triggerChalkAnimation() {
+    if (!chalkContour || isReducedMotion) return;
+    const topCard = cardElements[order[0]];
+    const badge = topCard ? topCard.querySelector('.deck-sheet-badge') : null;
+    let color = '#E9A4A8';
+    if (badge) {
+      if (badge.classList.contains('deck-badge--sky')) color = '#76C2D0';
+      else if (badge.classList.contains('deck-badge--vanilla')) color = '#E8B87C';
+    }
+
+    chalkContour.style.setProperty('--chalk-accent', color);
+    chalkContour.classList.remove('is-drawing');
+    void chalkContour.offsetWidth; // Dispara reflow para reiniciar keyframe SVG
+    chalkContour.classList.add('is-drawing');
+
+    clearTimeout(chalkTimeout);
+    chalkTimeout = setTimeout(() => {
+      chalkContour.classList.remove('is-drawing');
+    }, 750);
+  }
+
+  function updateUI() {
+    if (countEl) {
+      const topIdx = order[0] + 1;
+      countEl.textContent = `${String(topIdx).padStart(2, '0')} / ${String(count).padStart(2, '0')}`;
+    }
+    triggerChalkAnimation();
+  }
+
+  function commitOrder(nextOrder) {
+    order = nextOrder;
+    updateUI();
+    kick();
+  }
+
+  function throwTop(vx, vy, fx, fy) {
+    const index = order[0];
+    if (index === undefined || order.length < 2) return;
+    const body = bodies[index];
+    const node = cardElements[index];
+    if (!body || !node) return;
+
+    const speed = Math.hypot(vx, vy);
+    const rawX = speed > 0.05 ? vx : fx;
+    const rawY = speed > 0.05 ? vy : fy;
+    const norm = Math.hypot(rawX, rawY) || 1;
+    const ux = rawX / norm;
+    const uy = rawY / norm;
+    const w = node.offsetWidth || 340;
+    const h = node.offsetHeight || 480;
+    const distance = clearance(w, h, ux, uy) + Math.min(speed * 50, 100);
+    const launch = Math.max(speed, 0.95) * 1000;
+
+    body.phase = 'out';
+    body.dx = ux;
+    body.dy = uy;
+    body.out = {
+      x: ux * distance,
+      y: uy * distance,
+      r: Math.max(-36, Math.min(36, body.r + ux * 24)),
+      s: 1
+    };
+    body.vx = ux * launch;
+    body.vy = uy * launch;
+    body.vr += ux * launch * 0.045;
+    body.z = TOP_Z;
+    body.apexZ = null;
+
+    commitOrder([...order.slice(1), index]);
+  }
+
+  function bringBack() {
+    const index = order[order.length - 1];
+    if (index === undefined || order.length < 2) return;
+    const body = bodies[index];
+    const node = cardElements[index];
+    if (!body || !node) return;
+
+    const ux = -0.96;
+    const uy = -0.26;
+    const w = node.offsetWidth || 340;
+    const h = node.offsetHeight || 480;
+    const distance = clearance(w, h, ux, uy) + 24;
+
+    body.phase = 'out';
+    body.dx = ux;
+    body.dy = uy;
+    body.out = { x: ux * distance, y: uy * distance, r: -16, s: 1 };
+    body.vx = ux * 1100;
+    body.vy = uy * 1100;
+    body.z = 0;
+    body.apexZ = TOP_Z - 1;
+
+    commitOrder([index, ...order.slice(0, -1)]);
+  }
+
+  function cycle(direction) {
+    if (direction === 1) {
+      throwTop(1.25, -0.3, 1, 0);
+    } else {
+      bringBack();
+    }
+  }
+
+  // Manipulação de Gestos e Toque com Bloqueio de Eixo Vertical
+  cardElements.forEach((card, index) => {
+    card.addEventListener('pointerdown', e => {
+      if (drag || order[0] !== index) return;
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+      const body = bodies[index];
+      if (!body) return;
+      const rect = card.getBoundingClientRect();
+      try {
+        card.setPointerCapture(e.pointerId);
+      } catch (_) {}
+      card.classList.add('is-dragging');
+
+      drag = {
+        pointerId: e.pointerId,
+        index,
+        startX: e.clientX,
+        startY: e.clientY,
+        baseX: body.x,
+        baseY: body.y,
+        width: card.offsetWidth,
+        lever: e.clientY - rect.top < rect.height / 2 ? 1 : -1,
+        moved: false,
+        samples: [{ t: e.timeStamp, x: e.clientX, y: e.clientY }]
+      };
+    });
+
+    card.addEventListener('pointermove', e => {
+      if (!drag || drag.pointerId !== e.pointerId) return;
+      const dx = e.clientX - drag.startX;
+      const dy = e.clientY - drag.startY;
+
+      if (!drag.moved) {
+        if (Math.hypot(dx, dy) < TAP_SLOP) return;
+
+        // Bloqueio de eixo touch: se o gesto for predominantemente vertical, libera para scroll nativo da página
+        if (e.pointerType !== 'mouse' && Math.abs(dy) > Math.abs(dx)) {
+          drag = null;
+          card.classList.remove('is-dragging');
+          try {
+            if (card.hasPointerCapture(e.pointerId)) {
+              card.releasePointerCapture(e.pointerId);
+            }
+          } catch (_) {}
+          return;
+        }
+      }
+
+      const body = bodies[drag.index];
+      if (!body) return;
+
+      drag.moved = true;
+      drag.samples.push({ t: e.timeStamp, x: e.clientX, y: e.clientY });
+      if (drag.samples.length > 24) drag.samples.shift();
+
+      body.phase = 'drag';
+      body.x = drag.baseX + dx;
+      body.y = drag.baseY + dy;
+      body.s = 1;
+      body.r = Math.max(-1, Math.min(1, body.x / drag.width)) * MAX_DRAG_ROTATION * drag.lever;
+      body.vx = 0;
+      body.vy = 0;
+      body.vr = 0;
+      body.vs = 0;
+
+      progress = Math.min(Math.hypot(body.x, body.y) / (drag.width * THROW_DISTANCE), 1);
+      kick();
+    });
+
+    function handlePointerEnd(e, cancelled) {
+      if (!drag || drag.pointerId !== e.pointerId) return;
+      const currentDrag = drag;
+      drag = null;
+      progress = 0;
+      card.classList.remove('is-dragging');
+
+      try {
+        if (card.hasPointerCapture(e.pointerId)) {
+          card.releasePointerCapture(e.pointerId);
+        }
+      } catch (_) {}
+
+      const body = bodies[currentDrag.index];
+      if (!body || !currentDrag.moved) {
+        if (body) body.phase = 'rest';
+        kick();
+        return;
+      }
+
+      if (cancelled) {
+        body.phase = 'rest';
+        kick();
+        return;
+      }
+
+      const { vx, vy } = releaseVelocity(currentDrag.samples);
+      const speed = Math.hypot(vx, vy);
+      const distance = Math.hypot(body.x, body.y);
+      const heading = distance > 0 ? (vx * body.x + vy * body.y) / distance : 0;
+      const fast = speed > THROW_VELOCITY && heading > -0.2;
+      const far = distance > currentDrag.width * THROW_DISTANCE && heading > -0.3;
+
+      if (fast || far) {
+        throwTop(vx, vy, body.x / (distance || 1), body.y / (distance || 1));
+        return;
+      }
+
+      body.phase = 'rest';
+      body.vx = vx * 1000;
+      body.vy = vy * 1000;
+      body.vr = ((vx * 1000) / currentDrag.width) * MAX_DRAG_ROTATION * currentDrag.lever;
+      kick();
+    }
+
+    card.addEventListener('pointerup', e => handlePointerEnd(e, false));
+    card.addEventListener('pointercancel', e => handlePointerEnd(e, true));
+    card.addEventListener('lostpointercapture', e => handlePointerEnd(e, true));
+
+    // Suporte a teclado
+    card.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        cycle(1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        cycle(-1);
+      }
+    });
+  });
+
+  // Botões de navegação
+  if (prevBtn) {
+    prevBtn.addEventListener('click', e => {
+      e.preventDefault();
+      cycle(-1);
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', e => {
+      e.preventDefault();
+      cycle(1);
+    });
+  }
+
+  // Posição inicial dos cartões e ativação da UI
+  order.forEach((index, depth) => {
+    write(index, depth);
+  });
+  updateUI();
+  kick();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Limpa qualquer hash existente na entrada e fixa o topo absoluto
   if (window.location.hash) {
@@ -669,6 +1150,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCurrentYear();
   initAnchorNavigation();
   initHeroChalkReplay();
+  initThrowDeck();
 });
 
 // Garante topo absoluto mesmo após o carregamento completo de imagens e fontes

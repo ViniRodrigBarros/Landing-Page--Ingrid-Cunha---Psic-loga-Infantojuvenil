@@ -656,32 +656,216 @@
         <!-- Coluna da Foto da Profissional:
              Asset: assets/ingrid.png (404x762px, PNG transparente) sobre arco Amarelo Baunilha (#F6DEBC) -->
         <div class="about-visual" data-reveal="fade-up">
-          <figure class="about-figure">
-            <div class="about-photo-wrapper">
-              <img src="assets/icons/star-4.svg" alt="" width="48" height="48" class="about-doodle about-doodle--star" loading="lazy" decoding="async" aria-hidden="true">
-              <img src="assets/icons/spiral-doodle.svg" alt="" width="84" height="46" class="about-doodle about-doodle--spiral" loading="lazy" decoding="async" aria-hidden="true">
-              <img src="assets/coracao.png" alt="" width="64" height="56" class="about-doodle about-doodle--heart" loading="lazy" decoding="async" aria-hidden="true">
-
-              <img
-                src="assets/ingrid.png"
-                alt="Foto profissional da psicóloga Ingrid Cunha (CRP 13/12719)"
-                width="404"
-                height="762"
-                loading="lazy"
-                decoding="async"
-                class="about-photo"
-              >
+          <div class="deck-wrapper">
+            <!-- Grafismos ambientais de giz ao redor da pilha -->
+            <div class="deck-ambient-doodles" aria-hidden="true">
+              <img src="assets/icons/star-4.svg" alt="" width="44" height="44" class="deck-doodle deck-doodle--star" loading="lazy" decoding="async">
+              <img src="assets/icons/spiral-doodle.svg" alt="" width="76" height="42" class="deck-doodle deck-doodle--spiral" loading="lazy" decoding="async">
+              <img src="assets/coracao.png" alt="" width="56" height="49" class="deck-doodle deck-doodle--heart" loading="lazy" decoding="async">
             </div>
 
-            <figcaption class="about-crp-tag">
-              <img src="assets/coracao.png" alt="" width="42" height="37" loading="lazy" decoding="async" aria-hidden="true">
+            <!-- Viewport da Pilha de Cartas -->
+            <div class="deck-viewport" id="deck-viewport" role="region" aria-label="Galeria de fotos do atendimento e recursos terapêuticos">
+              <!-- Traçado de Giz Dinâmico (Anima ao passar de foto) -->
+              <svg class="deck-chalk-contour" id="deck-chalk-contour" viewBox="0 0 380 510" aria-hidden="true">
+                <defs>
+                  <filter id="deck-crayon-contour" x="-10%" y="-10%" width="120%" height="120%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" seed="18" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.6" xChannelSelector="R" yChannelSelector="G" />
+                  </filter>
+                </defs>
+                <g filter="url(#deck-crayon-contour)">
+                  <rect class="deck-chalk-path" x="6" y="6" width="368" height="498" rx="26" fill="none" stroke="var(--chalk-accent, #E9A4A8)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                  <path class="deck-chalk-sparkle-1" d="M 345 32 Q 345 44 357 44 Q 345 44 345 56 Q 345 44 333 44 Q 345 44 345 32 Z" fill="#F6DEBC" />
+                  <path class="deck-chalk-sparkle-2" d="M 28 475 Q 28 484 37 484 Q 28 484 28 493 Q 28 484 19 484 Q 28 484 28 475 Z" fill="#BAE5ED" />
+                </g>
+              </svg>
+
+              <!-- Trilho com os 12 cards reais -->
+              <div class="deck-track" id="deck-track">
+                <!-- Card 1: Retrato da Ingrid -->
+                <article class="deck-sheet" data-index="0" data-id="ingrid-retrato">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-01-ingrid-retrato.jpg" alt="Ingrid Cunha sorrindo no consultório" class="deck-sheet-img" loading="eager" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--rose">Acolhimento &amp; Escuta</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">Ingrid Cunha &bull; Psicóloga</h4>
+                      <p class="deck-sheet-sub">CRP 13/12719 &bull; TCC &amp; Neuropsicologia</p>
+                      <p class="deck-sheet-desc">Atuação dedicada ao desenvolvimento emocional e comportamental de crianças e adolescentes, unindo afeto e rigor científico.</p>
+                    </div>
+                </article>
+
+                <!-- Card 2: Consultório -->
+                <article class="deck-sheet" data-index="1" data-id="consultorio">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-02-consultorio.jpg" alt="Espaço preparado com bancada lúdica e livros infantis" class="deck-sheet-img" loading="lazy" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--sky">Espaço Terapêutico</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">Ambiente Seguro para Crianças</h4>
+                      <p class="deck-sheet-sub">Consultório Acolhedor &bull; Campina Grande</p>
+                      <p class="deck-sheet-desc">Espaço planejado para transmitir tranquilidade e segurança, onde cada criança se expressa com liberdade por meio de recursos lúdicos.</p>
+                    </div>
+                </article>
+
+                <!-- Card 3: Identificação de Emoções -->
+                <article class="deck-sheet" data-index="2" data-id="emocoes">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-03-emocoes-divertidamente.jpg" alt="Cartões ilustrados para identificação de emoções como tristeza, medo e raiva" class="deck-sheet-img" loading="lazy" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--vanilla">Alfabetização Emocional</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">Identificação das Emoções</h4>
+                      <p class="deck-sheet-sub">Cartões Visuais Terapêuticos</p>
+                      <p class="deck-sheet-desc">Recurso prático para reconhecer tristeza, medo, raiva e ansiedade, ensinando a tolerar frustrações e expressar o que sente.</p>
+                    </div>
+                </article>
+
+                <!-- Card 4: Jogo da Coragem -->
+                <article class="deck-sheet" data-index="3" data-id="jogo-coragem">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-04-jogo-coragem.jpg" alt="Tabuleiro e cartas do Jogo da Coragem para superação de medos" class="deck-sheet-img" loading="lazy" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--rose">Enfrentamento de Medos</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">Jogo da Coragem</h4>
+                      <p class="deck-sheet-sub">Superação Gradativa da Ansiedade</p>
+                      <p class="deck-sheet-desc">Trilha lúdica com cartas de desafio para trabalhar inseguranças, timidez acentuada e coragem no dia a dia infantil.</p>
+                    </div>
+                </article>
+
+                <!-- Card 5: Pipoca dos Sentimentos -->
+                <article class="deck-sheet" data-index="4" data-id="pipoca-sentimentos">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-05-pipoca-sentimentos.jpg" alt="Atividade da Pipoca dos Sentimentos para lidar com frustração e regras" class="deck-sheet-img" loading="lazy" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--vanilla">Família &amp; Limites</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">Pipoca dos Sentimentos</h4>
+                      <p class="deck-sheet-sub">Compreensão de Situações Cotidianas</p>
+                      <p class="deck-sheet-desc">Atividade divertida para trabalhar reações que 'estouram' diante de lições de casa, limites com os pais e convivência com irmãos.</p>
+                    </div>
+                </article>
+
+                <!-- Card 6: Hora do Rush -->
+                <article class="deck-sheet" data-index="5" data-id="hora-do-rush">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-06-hora-do-rush.jpg" alt="Jogo de raciocínio lógico Hora do Rush com carros coloridos e desafios" class="deck-sheet-img" loading="lazy" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--sky">Funções Executivas</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">Hora do Rush &bull; Raciocínio</h4>
+                      <p class="deck-sheet-sub">Foco, Estratégia e Paciência</p>
+                      <p class="deck-sheet-desc">Jogo estimulante de lógica que fortalece o foco sustentado, o controle de impulsos e o planejamento de etapas na infância.</p>
+                    </div>
+                </article>
+
+                <!-- Card 7: Ficha do Advogado -->
+                <article class="deck-sheet" data-index="6" data-id="ficha-advogado">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-07-ficha-advogado.jpg" alt="Folhas de exercícios da TCC Ficha do Advogado para questionar pensamentos negativos" class="deck-sheet-img" loading="lazy" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--rose">TCC Prática</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">Ficha do Advogado</h4>
+                      <p class="deck-sheet-sub">Reestruturação Cognitiva Infantil</p>
+                      <p class="deck-sheet-desc">Técnica da TCC onde a criança aprende a 'defender' a si mesma contra pensamentos autocríticos e encontrar soluções realistas.</p>
+                    </div>
+                </article>
+
+                <!-- Card 8: Capivara Corajosa -->
+                <article class="deck-sheet" data-index="7" data-id="capivara-corajosa">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-08-capivara-corajosa.jpg" alt="Prancha da história As Aventuras da Capivara Corajosa com planetas lúdicos" class="deck-sheet-img" loading="lazy" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--vanilla">Narrativa Terapêutica</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">Aventuras da Capivara Corajosa</h4>
+                      <p class="deck-sheet-sub">Autoestima e Expressão Segura</p>
+                      <p class="deck-sheet-desc">Histórias guiadas em planetas lúdicos para acolher a vulnerabilidade, fortalecer a autoconfiança e verbalizar emoções.</p>
+                    </div>
+                </article>
+
+                <!-- Card 9: Missão do Stitch -->
+                <article class="deck-sheet" data-index="8" data-id="missao-stitch">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-09-missao-stitch.jpg" alt="Painel temático do Stitch no espaço com estrelas de recompensa" class="deck-sheet-img" loading="lazy" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--sky">Metas &amp; Motivação</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">A Missão Corajosa do Stitch</h4>
+                      <p class="deck-sheet-sub">Conquistas e Hábitos Positivos</p>
+                      <p class="deck-sheet-desc">Painel espacial motivacional que transforma metas comportamentais em pequenas missões com conquistas visuais diárias.</p>
+                    </div>
+                </article>
+
+                <!-- Card 10: Rotina Semanal -->
+                <article class="deck-sheet" data-index="9" data-id="rotina-semanal">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-10-rotina-semanal.jpg" alt="Quadro de rotina semanal para organização de estudos e hábitos" class="deck-sheet-img" loading="lazy" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--rose">Adolescentes</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">Rotina Semanal &bull; Organização</h4>
+                      <p class="deck-sheet-sub">Gestão de Estudos e Autonomia</p>
+                      <p class="deck-sheet-desc">Painel visual de planejamento para adolescentes, reduzindo a sobrecarga mental, procrastinação e ansiedade escolar.</p>
+                    </div>
+                </article>
+
+                <!-- Card 11: Recursos de Chão -->
+                <article class="deck-sheet" data-index="10" data-id="jogos-chao">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-11-jogos-chao.jpg" alt="Tapete acolchoado com quebra-cabeças e jogos interativos no chão" class="deck-sheet-img" loading="lazy" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--vanilla">Ludoterapia</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">Recursos Lúdicos de Chão</h4>
+                      <p class="deck-sheet-sub">Expressão Espontânea e Brincar</p>
+                      <p class="deck-sheet-desc">Tapete com desafios motores e jogos interativos onde a criança se conecta com a psicóloga através do brincar natural.</p>
+                    </div>
+                </article>
+
+                <!-- Card 12: Planejamento Clínico -->
+                <article class="deck-sheet" data-index="11" data-id="planejamento-clinico">
+                  <div class="deck-sheet-media">
+                      <img src="assets/fotos-componente/deck-12-planejamento-clinico.jpg" alt="Ingrid Cunha organizando sessões e materiais clínicos individualizados" class="deck-sheet-img" loading="lazy" decoding="async">
+                      <span class="deck-sheet-badge deck-badge--sky">Cuidado Personalizado</span>
+                    </div>
+                    <div class="deck-sheet-body">
+                      <h4 class="deck-sheet-title">Planejamento Individualizado</h4>
+                      <p class="deck-sheet-sub">Intervenções para Cada Família</p>
+                      <p class="deck-sheet-desc">Cada sessão é estruturada de acordo com o ritmo e as particularidades da criança, com orientação contínua aos pais.</p>
+                    </div>
+                </article>
+              </div>
+            </div>
+
+            <!-- Controles com Ícones de Giz -->
+            <div class="deck-controls">
+              <button type="button" class="deck-nav-btn deck-nav-prev" id="deck-btn-prev" aria-label="Foto anterior">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              
+              <div class="deck-indicator" aria-live="polite">
+                <span class="deck-indicator-count" id="deck-count">01 / 12</span>
+                <span class="deck-indicator-hint">Arraste a foto ou use as setas</span>
+              </div>
+
+              <button type="button" class="deck-nav-btn deck-nav-next" id="deck-btn-next" aria-label="Próxima foto">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+
+            <!-- Tag de Credencial CRP Oficial Preservada -->
+            <div class="about-crp-tag deck-crp-tag">
+              <img src="assets/coracao.png" alt="" width="38" height="34" loading="lazy" decoding="async" aria-hidden="true">
               <div>
                 <strong>Cuidado ético, afetivo e baseado em evidências</strong>
-                <!-- CRP oficial do Manual de Identidade Visual: CRP 13/12719 -->
                 <span>Psicologia Clínica &bull; <button type="button" class="btn-copy-chip js-copy-btn" data-copy="CRP 13/12719" aria-label="Copiar número do CRP">CRP 13/12719 <svg class="copy-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></span>
               </div>
-            </figcaption>
-          </figure>
+            </div>
+          </div>
         </div>
 
         <!-- Coluna da Bio, Formação e Diferenciais (Sem repetição tripla de informações) -->
